@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CADISY — Le caddie qui sort de votre coffre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,900;1,300;1,600;1,900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   DESIGN SYSTEM — VERT ÉCO SANTÉ
+═══════════════════════════════════════ */
+:root{
+  /* Verts */
+  --g900: #0D2B1A;
+  --g800: #14401F;
+  --g700: #1C5C2E;
+  --g600: #237A3A;
+  --g500: #2E9B48;
+  --g400: #4DB866;
+  --g300: #82D098;
+  --g200: #C0EACB;
+  --g100: #E8F7EC;
+  --g50:  #F3FBF5;
+
+  /* Accent naturel — mousse/sauge */
+  --sage: #6B8C6F;
+  --sage-light: #A8C5AC;
+
+  /* Blanc / off-white */
+  --white: #FFFFFF;
+  --off: #F7FAF8;
+
+  /* Texte */
+  --text: #0F1F14;
+  --muted: #5A6E5E;
+  --light-text: #8FA894;
+
+  /* Bordures */
+  --border: #D4E8D8;
+  --border-dark: #B5D4BB;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);overflow-x:hidden}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+.a1{animation:fadeUp .7s .05s ease both}
+.a2{animation:fadeUp .7s .2s ease both}
+.a3{animation:fadeUp .7s .35s ease both}
+.a4{animation:fadeUp .7s .5s ease both}
+.a5{animation:fadeUp .7s .65s ease both}
+
+/* ══════════════ NAV ══════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 5vw;
+  background:rgba(13,43,26,.96);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.logo{
+  font-family:'Fraunces',serif;font-size:1.65rem;font-weight:900;
+  letter-spacing:.04em;color:var(--white);text-decoration:none;
+  display:flex;align-items:center;gap:.4rem;
+}
+.logo-leaf{font-size:1.2rem}
+.logo span{color:var(--g400)}
+nav ul{list-style:none;display:flex;align-items:center;gap:2rem}
+nav ul li a{
+  text-decoration:none;color:rgba(255,255,255,.65);
+  font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+  transition:color .2s;
+}
+nav ul li a:hover{color:var(--g300)}
+.btn-nav{
+  background:var(--g500) !important;color:white !important;
+  padding:.6rem 1.4rem !important;border-radius:6px;
+  font-weight:600 !important;transition:background .2s,transform .15s !important;
+  letter-spacing:.04em !important;
+}
+.btn-nav:hover{background:var(--g600) !important;transform:translateY(-1px) !important}
+
+/* hamburger mobile */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:white;border-radius:2px;transition:.3s}
+.mobile-menu{
+  display:none;position:fixed;top:62px;left:0;right:0;z-index:998;
+  background:rgba(13,43,26,.98);backdrop-filter:blur(18px);
+  flex-direction:column;padding:1.5rem 5vw 2rem;gap:1rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.mobile-menu a{
+  text-decoration:none;color:rgba(255,255,255,.75);
+  font-size:.95rem;font-weight:500;padding:.5rem 0;
+  border-bottom:1px solid rgba(255,255,255,.07);transition:color .2s;
+}
+.mobile-menu a:hover{color:var(--g300)}
+.mobile-menu .btn-mobile{
+  margin-top:.5rem;background:var(--g500);color:white;
+  padding:.9rem 1.4rem;border-radius:6px;font-weight:700;text-align:center;
+  border-bottom:none;
+}
+.mobile-menu.open{display:flex}
+@media(max-width:768px){nav ul{display:none}.hamburger{display:flex}}
+
+/* ══════════════ HERO ══════════════ */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  background:linear-gradient(150deg,var(--g900) 0%,var(--g800) 50%,#1a4a2a 100%);
+  position:relative;overflow:hidden;padding-top:62px;
+}
+/* motif feuilles / texture */
+.hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(ellipse 60% 55% at 75% 45%, rgba(46,155,72,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 15% 80%, rgba(77,184,102,.1) 0%, transparent 55%);
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:5rem 3rem 5rem 8vw;position:relative;z-index:2;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:rgba(77,184,102,.15);border:1px solid rgba(77,184,102,.4);
+  color:var(--g300);font-size:.72rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;padding:.42rem 1rem;border-radius:30px;
+  width:fit-content;margin-bottom:1.8rem;
+}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--g400);animation:pulse 2s ease infinite;flex-shrink:0}
+.hero-title{
+  font-family:'Fraunces',serif;
+  font-size:clamp(2.8rem,4.8vw,5rem);font-weight:900;line-height:1.05;
+  color:var(--white);
+}
+.hero-title em{font-style:italic;color:var(--g400)}
+.hero-sub{
+  margin-top:1.6rem;font-size:1.05rem;line-height:1.78;
+  color:rgba(255,255,255,.6);max-width:420px;
+}
+.hero-actions{display:flex;align-items:center;gap:1.3rem;margin-top:2.8rem;flex-wrap:wrap}
+.btn-primary{
+  background:var(--g500);color:white;
+  padding:1rem 2.4rem;border-radius:8px;
+  font-size:.92rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;
+  border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+}
+.btn-primary:hover{background:var(--g600);transform:translateY(-2px);box-shadow:0 10px 30px rgba(35,122,58,.4)}
+.btn-secondary{
+  color:rgba(255,255,255,.8);border:1.5px solid rgba(255,255,255,.25);
+  padding:.95rem 1.8rem;border-radius:8px;font-size:.88rem;font-weight:500;
+  text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem;
+}
+.btn-secondary:hover{border-color:var(--g400);color:var(--g300)}
+.hero-proof{display:flex;align-items:center;gap:.9rem;margin-top:3rem}
+.proof-badge{
+  background:rgba(77,184,102,.12);border:1px solid rgba(77,184,102,.3);
+  border-radius:8px;padding:.6rem 1rem;display:flex;align-items:center;gap:.6rem;
+}
+.proof-badge .flag{font-size:1.2rem}
+.proof-text{font-size:.8rem;color:rgba(255,255,255,.55);line-height:1.4}
+.proof-text strong{color:var(--g300);display:block}
+
+.hero-right{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;padding:3rem 4rem 3rem 2rem;
+}
+.caddie-visual{
+  position:relative;width:100%;max-width:480px;
+  animation:floatY 5s ease-in-out infinite;
+}
+.caddie-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(46,155,72,.35) 0%,transparent 70%);
+  filter:blur(35px);pointer-events:none;
+}
+
+/* ══════════════ COUNTER BAR ══════════════ */
+.counter-bar{
+  background:var(--g700);padding:1.2rem 5vw;
+  display:flex;align-items:center;justify-content:center;
+  gap:0;flex-wrap:wrap;
+}
+.counter-item{
+  text-align:center;padding:.6rem 3.5vw;
+  border-right:1px solid rgba(255,255,255,.15);
+}
+.counter-item:last-child{border-right:none}
+.counter-num{
+  font-family:'Fraunces',serif;font-size:2rem;font-weight:900;
+  color:var(--g300);line-height:1;
+}
+.counter-label{font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.3rem}
+
+/* ══════════════ SECTIONS BASE ══════════════ */
+section{padding:5.5rem 8vw}
+.section-eyebrow{
+  font-size:.75rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--g600);margin-bottom:.9rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.section-eyebrow::before{content:'';display:block;width:28px;height:2px;background:var(--g500);border-radius:2px}
+.section-title{
+  font-family:'Fraunces',serif;
+  font-size:clamp(2rem,3.3vw,3rem);font-weight:900;line-height:1.08;color:var(--g900);
+}
+.section-title em{font-style:italic;color:var(--g600)}
+
+/* ══════════════ PROBLEM ══════════════ */
+.problem{background:var(--white);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.problem-text>p{margin-top:1.4rem;font-size:1rem;line-height:1.8;color:var(--muted)}
+.pain-list{margin-top:2.2rem;display:flex;flex-direction:column;gap:1rem}
+.pain-item{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1.1rem 1.3rem;background:var(--g50);border-radius:8px;
+  border-left:3px solid var(--g500);transition:border-color .2s;
+}
+.pain-item:hover{border-left-color:var(--g700)}
+.pain-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem}
+.pain-item strong{display:block;font-size:.9rem;font-weight:700;margin-bottom:.25rem;color:var(--g900)}
+.pain-item p{font-size:.87rem;color:var(--muted);line-height:1.55}
+.problem-visual{
+  background:linear-gradient(150deg,var(--g900) 0%,var(--g800) 100%);
+  border-radius:14px;padding:3rem 2.5rem;
+  display:flex;align-items:center;justify-content:center;
+  min-height:360px;position:relative;overflow:hidden;
+}
+.problem-visual::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 55% at 25% 70%,rgba(46,155,72,.25) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+/* ══════════════ HOW ══════════════ */
+.how{background:var(--g900)}
+.how .section-eyebrow{color:var(--g300)}
+.how .section-eyebrow::before{background:var(--g400)}
+.how .section-title{color:white}
+.how .section-title em{color:var(--g400)}
+.how-subtitle{margin-top:1rem;color:rgba(255,255,255,.5);font-size:.95rem;max-width:520px;line-height:1.7}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3.5rem;position:relative}
+.steps::before{
+  content:'';position:absolute;top:44px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(77,184,102,.5) 25%,rgba(77,184,102,.5) 75%,transparent);
+}
+.step{text-align:center;position:relative}
+.step-num{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--g600);color:white;
+  font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.3rem;position:relative;z-index:1;
+  border:3px solid var(--g900);
+  box-shadow:0 0 0 1px var(--g500);
+}
+.step-icon{font-size:1.8rem;margin-bottom:.7rem;display:block}
+.step h3{font-size:.97rem;font-weight:700;color:white;margin-bottom:.55rem}
+.step p{font-size:.85rem;line-height:1.65;color:rgba(255,255,255,.48)}
+
+/* ══════════════ FEATURES ══════════════ */
+.features{background:var(--g50)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;margin-top:3rem}
+.feat-card{
+  background:var(--white);border-radius:10px;
+  padding:2rem 1.8rem;border:1.5px solid var(--border);
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.feat-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--g500),var(--g400));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.feat-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(13,43,26,.1);border-color:var(--border-dark)}
+.feat-card:hover::after{transform:scaleX(1)}
+.feat-icon{
+  width:48px;height:48px;
+  background:linear-gradient(135deg,var(--g600),var(--g500));
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.2rem;
+}
+.feat-card h3{font-size:1rem;font-weight:700;color:var(--g900);margin-bottom:.55rem}
+.feat-card p{font-size:.87rem;line-height:1.65;color:var(--muted)}
+
+/* ══════════════ FORM SECTION ══════════════ */
+#precommande{
+  background:linear-gradient(150deg,var(--g800) 0%,var(--g900) 100%);
+  position:relative;overflow:hidden;
+}
+#precommande::before{
+  content:'';position:absolute;top:-20%;right:-5%;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(46,155,72,.2) 0%,transparent 65%);
+  pointer-events:none;
+}
+#precommande .section-eyebrow{color:var(--g300)}
+#precommande .section-eyebrow::before{background:var(--g400)}
+#precommande .section-title{color:white}
+#precommande .section-title em{color:var(--g400)}
+.form-intro{color:rgba(255,255,255,.55);font-size:.95rem;line-height:1.75;margin-top:1rem;max-width:500px}
+.form-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:5rem;align-items:start;margin-top:3.5rem}
+
+/* perks */
+.form-perks{display:flex;flex-direction:column;gap:1.3rem}
+.perk{display:flex;align-items:flex-start;gap:1rem}
+.perk-icon{
+  width:42px;height:42px;flex-shrink:0;border-radius:8px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;font-size:1.15rem;
+  margin-top:2px;
+}
+.perk h4{font-size:.9rem;font-weight:700;color:white;margin-bottom:.2rem}
+.perk p{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.45)}
+
+/* form box */
+.form-box{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;padding:2.5rem;
+  backdrop-filter:blur(12px);
+}
+.form-box-title{
+  font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;
+  color:white;margin-bottom:.35rem;
+}
+.form-box-note{font-size:.8rem;color:rgba(255,255,255,.35);margin-bottom:2rem;line-height:1.55}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field{margin-bottom:1rem}
+.field label{
+  display:block;font-size:.76rem;font-weight:600;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:.4rem;
+}
+.field input,.field select,.field textarea{
+  width:100%;padding:.82rem 1rem;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.13);border-radius:7px;
+  color:white;font-family:'DM Sans',sans-serif;font-size:.92rem;
+  outline:none;transition:border-color .2s,background .2s;
+}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.2)}
+.field select option{background:#1C5C2E;color:white}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--g400);background:rgba(255,255,255,.1);
+}
+.field textarea{resize:none;height:88px}
+.field input.error,.field select.error{border-color:#ff6b6b}
+.rgpd-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:1.3rem}
+.rgpd-row input[type=checkbox]{width:16px;height:16px;flex-shrink:0;margin-top:3px;accent-color:var(--g400);cursor:pointer}
+.rgpd-row label{font-size:.78rem;color:rgba(255,255,255,.38);line-height:1.45;cursor:pointer}
+.rgpd-row a{color:var(--g300);text-decoration:underline}
+.btn-submit{
+  width:100%;padding:1.1rem;
+  background:linear-gradient(135deg,var(--g600),var(--g500));
+  color:white;border:none;border-radius:8px;
+  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;cursor:pointer;
+  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem;
+}
+.btn-submit:hover{background:linear-gradient(135deg,var(--g700),var(--g600));transform:translateY(-2px);box-shadow:0 10px 28px rgba(35,122,58,.45)}
+.btn-submit:active{transform:translateY(0)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* success */
+.success-box{display:none;text-align:center;padding:1rem .5rem}
+.success-icon{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--g700),var(--g500));
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.4rem;font-size:2rem;
+  box-shadow:0 0 0 8px rgba(77,184,102,.15);
+}
+.success-box h3{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:white;margin-bottom:.7rem}
+.success-box>p{font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:1.5rem}
+.success-recap{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:1.3rem;text-align:left;
+}
+.success-recap h4{font-size:.74rem;font-weight:700;color:var(--g300);letter-spacing:.09em;text-transform:uppercase;margin-bottom:.7rem}
+.success-recap pre{font-size:.83rem;color:rgba(255,255,255,.65);line-height:1.75;white-space:pre-wrap;font-family:'DM Sans',sans-serif}
+
+/* ══════════════ FOOTER ══════════════ */
+footer{background:var(--g900);padding:3.5rem 8vw 2.5rem;border-top:1px solid rgba(255,255,255,.07)}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+.foot-brand .logo{font-size:1.4rem;display:inline-flex;margin-bottom:.9rem}
+.foot-brand p{font-size:.83rem;color:rgba(255,255,255,.38);line-height:1.65;max-width:260px}
+.foot-col h4{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g300);margin-bottom:1rem}
+.foot-col ul{list-style:none}
+.foot-col ul li{margin-bottom:.55rem}
+.foot-col ul a{text-decoration:none;font-size:.84rem;color:rgba(255,255,255,.4);transition:color .2s}
+.foot-col ul a:hover{color:var(--g300)}
+.foot-bottom{
+  padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+}
+.foot-bottom p{font-size:.78rem;color:rgba(255,255,255,.25)}
+
+/* ══════════════ RESPONSIVE ══════════════ */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .hero-left{padding:5rem 6vw;text-align:center;align-items:center}
+  .hero-sub{margin:1.6rem auto 0}
+  .problem,.form-layout{grid-template-columns:1fr}
+  .problem-visual{min-height:240px;order:-1}
+  .steps{grid-template-columns:1fr 1fr;gap:1.8rem}
+  .steps::before{display:none}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  section{padding:4rem 5vw}
+  .counter-bar{gap:0}
+  .counter-item{padding:.6rem 5vw;border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}
+  .counter-item:last-child{border-bottom:none}
+  .features-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .foot-bottom{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV ═══════ -->
+<nav>
+  <a href="#" class="logo"><span class="logo-leaf">🌿</span> CADI<span>SY</span></a>
+  <ul>
+    <li><a href="#probleme">Le problème</a></li>
+    <li><a href="#fonctionnement">Fonctionnement</a></li>
+    <li><a href="#avantages">Avantages</a></li>
+    <li><a href="#precommande" class="btn-nav">Précommander</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- menu mobile -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#probleme" onclick="closeMenu()">Le problème</a>
+  <a href="#fonctionnement" onclick="closeMenu()">Fonctionnement</a>
+  <a href="#avantages" onclick="closeMenu()">Avantages</a>
+  <a href="#precommande" class="btn-mobile" onclick="closeMenu()">🛒 Précommander</a>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="accueil">
+  <div class="hero-left">
+    <div class="badge a1">
+      <span class="badge-dot"></span>
+      🇧🇪 Initiative étudiante · Solvay Brussels School
+    </div>
+
+    <h1 class="hero-title a2">
+      Le caddie qui sort<br/>de votre coffre<br/><em>comme une civière.</em>
+    </h1>
+
+    <p class="hero-sub a3">
+      CADISY est rangé dans votre coffre, replié. D'une simple traction, il se déplie sur ses rails et se pose sur ses roues — prêt à faire vos courses. Plus jamais besoin de vous pencher douloureusement.
+    </p>
+
+    <div class="hero-actions a4">
+      <a href="#precommande" class="btn-primary">🛒 Précommander</a>
+      <a href="#fonctionnement" class="btn-secondary">▶ Voir comment ça marche</a>
+    </div>
+
+    <div class="hero-proof a5">
+      <div class="proof-badge">
+        <span class="flag">🇧🇪</span>
+        <div class="proof-text">
+          <strong>Projet Solvay</strong>
+          Pour mieux vivre votre quotidien
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="caddie-visual">
+      <div class="caddie-glow"></div>
+      <!-- Illustration SVG : coffre voiture + caddie qui se déplie comme une civière -->
+      <svg viewBox="0 0 500 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- COFFRE VOITURE -->
+        <rect x="25" y="200" width="450" height="195" rx="14" fill="#14401F" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+        <!-- bande hayon -->
+        <rect x="25" y="200" width="450" height="24" rx="0" fill="#0D2B1A"/>
+        <!-- hayon ouvert (arc) -->
+        <path d="M25 200 Q250 65 475 200" stroke="rgba(255,255,255,.15)" stroke-width="2" fill="none" stroke-dasharray="8 5"/>
+        <!-- intérieur coffre -->
+        <rect x="38" y="224" width="424" height="12" rx="3" fill="rgba(46,155,72,.25)"/>
+
+        <!-- RAILS (2 lignes parallèles) -->
+        <rect x="168" y="236" width="8" height="145" rx="4" fill="#2E9B48" opacity=".7"/>
+        <rect x="324" y="236" width="8" height="145" rx="4" fill="#2E9B48" opacity=".7"/>
+        <!-- connecteur rails haut -->
+        <rect x="162" y="236" width="176" height="10" rx="5" fill="rgba(255,255,255,.15)"/>
+
+        <!-- CADDIE DÉPLIÉ sur rails -->
+        <!-- corps principal (brancard) -->
+        <rect x="155" y="248" width="190" height="16" rx="5" fill="#4DB866"/>
+        <rect x="155" y="255" width="190" height="5" fill="rgba(255,255,255,.2)"/>
+        <!-- côtés du caddie -->
+        <rect x="155" y="264" width="8" height="100" rx="4" fill="#4DB866"/>
+        <rect x="337" y="264" width="8" height="100" rx="4" fill="#4DB866"/>
+        <!-- fond caddie -->
+        <rect x="163" y="356" width="174" height="8" rx="4" fill="#237A3A"/>
+        <!-- roues -->
+        <circle cx="188" cy="370" r="15" fill="#0D2B1A" stroke="#4DB866" stroke-width="3"/>
+        <circle cx="188" cy="370" r="5" fill="#4DB866"/>
+        <circle cx="312" cy="370" r="15" fill="#0D2B1A" stroke="#4DB866" stroke-width="3"/>
+        <circle cx="312" cy="370" r="5" fill="#4DB866"/>
+
+        <!-- CONTENU caddie (courses) -->
+        <rect x="174" y="278" width="46" height="68" rx="5" fill="#237A3A" opacity=".9"/>
+        <rect x="174" y="278" width="46" height="12" rx="5" fill="#4DB866"/>
+        <text x="197" y="290" fill="rgba(255,255,255,.6)" font-size="7" text-anchor="middle" font-family="sans-serif">🥦</text>
+        <rect x="232" y="265" width="38" height="82" rx="5" fill="#F7FAF8" opacity=".85"/>
+        <rect x="232" y="265" width="38" height="13" rx="5" fill="rgba(255,255,255,.5)"/>
+        <rect x="282" y="278" width="42" height="68" rx="5" fill="#1C5C2E" opacity=".85"/>
+        <rect x="282" y="278" width="42" height="12" rx="5" fill="#2E9B48"/>
+
+        <!-- POIGNÉE du caddie (qui sort vers la gauche) -->
+        <rect x="122" y="254" width="33" height="7" rx="3.5" fill="#82D098"/>
+        <rect x="95" y="240" width="27" height="35" rx="5" fill="none" stroke="#82D098" stroke-width="3"/>
+
+        <!-- FLÈCHE "glisse vers vous" -->
+        <line x1="50" y1="305" x2="88" y2="305" stroke="#82D098" stroke-width="2.5" stroke-dasharray="6 4" opacity=".8"/>
+        <polygon points="88,298 104,305 88,312" fill="#82D098" opacity=".8"/>
+        <!-- label -->
+        <rect x="30" y="283" width="58" height="18" rx="5" fill="rgba(46,155,72,.2)" stroke="#4DB866" stroke-width="1"/>
+        <text x="59" y="296" fill="#82D098" font-size="8.5" text-anchor="middle" font-family="sans-serif" font-weight="700">GLISSE !</text>
+
+        <!-- déco étoiles -->
+        <circle cx="440" cy="155" r="3" fill="#4DB866" opacity=".5"/>
+        <circle cx="415" cy="118" r="2" fill="#82D098" opacity=".4"/>
+        <circle cx="62" cy="148" r="4" fill="#82D098" opacity=".3"/>
+        <circle cx="85" cy="108" r="2" fill="white" opacity=".25"/>
+        <circle cx="456" cy="185" r="2" fill="#4DB866" opacity=".4"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ COUNTER BAR ═══════ -->
+<div class="counter-bar">
+  <div class="counter-item"><div class="counter-num">3M+</div><div class="counter-label">Belges souffrant du dos</div></div>
+  <div class="counter-item"><div class="counter-num">0 €</div><div class="counter-label">Paiement maintenant</div></div>
+  <div class="counter-item"><div class="counter-num">5 sec</div><div class="counter-label">Pour déployer CADISY</div></div>
+  <div class="counter-item"><div class="counter-num">40 kg</div><div class="counter-label">Capacité de charge</div></div>
+</div>
+
+<!-- ═══════ PROBLÈME ═══════ -->
+<section class="problem" id="probleme">
+  <div class="problem-text">
+    <p class="section-eyebrow">Le quotidien qui fait mal</p>
+    <h2 class="section-title">Sortir le caddie<br/>du coffre, <em>encore.</em></h2>
+    <p>Faire ses courses devrait être simple. Pour des millions de personnes souffrant du dos, sortir un caddie du coffre et charger les sacs représente une épreuve douloureuse, répétée chaque semaine sans solution.</p>
+    <div class="pain-list">
+      <div class="pain-item">
+        <div class="pain-icon">😣</div>
+        <div>
+          <strong>Se pencher profondément dans le coffre</strong>
+          <p>La flexion avant crée jusqu'à 150 kg de pression sur les disques lombaires.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">🏋️</div>
+        <div>
+          <strong>Soulever des charges répétées</strong>
+          <p>Les courses représentent en moyenne 12 kg. Chaque trajet coffre→maison agresse le dos.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">🔄</div>
+        <div>
+          <strong>Un geste répété chaque semaine</strong>
+          <p>Des dizaines de fois par an, ce même geste aggrave les douleurs chroniques existantes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="problem-visual">
+    <svg viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%;max-width:290px">
+      <circle cx="150" cy="50" r="22" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+      <path d="M150 72 Q145 108 110 148" stroke="rgba(255,255,255,.4)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M130 118 Q90 140 65 155" stroke="rgba(255,255,255,.35)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M128 128 Q92 152 70 167" stroke="rgba(255,255,255,.25)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M110 148 Q105 182 108 218" stroke="rgba(255,255,255,.35)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M110 148 Q118 180 115 218" stroke="rgba(255,255,255,.3)" stroke-width="8" stroke-linecap="round"/>
+      <rect x="42" y="152" width="148" height="78" rx="6" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+      <rect x="58" y="165" width="38" height="52" rx="4" fill="#4DB866" opacity=".7"/>
+      <ellipse cx="125" cy="106" rx="14" ry="19" fill="rgba(220,80,50,.2)" stroke="rgba(220,80,50,.5)" stroke-width="1.5"/>
+      <text x="125" y="111" fill="rgba(255,100,80,.9)" font-size="14" text-anchor="middle">!</text>
+      <rect x="170" y="66" width="72" height="22" rx="5" fill="rgba(220,80,50,.2)" stroke="rgba(220,80,50,.45)" stroke-width="1"/>
+      <text x="206" y="81" fill="rgba(255,120,90,.9)" font-size="8.5" text-anchor="middle" font-family="sans-serif" font-weight="700">DOULEUR</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════ FONCTIONNEMENT ═══════ -->
+<section class="how" id="fonctionnement">
+  <p class="section-eyebrow">Aussi simple qu'ouvrir le coffre</p>
+  <h2 class="section-title">Comment<br/><em>ça fonctionne ?</em></h2>
+  <p class="how-subtitle">CADISY fonctionne sur le principe d'une civière de secours : rangé et replié, il sort sur ses rails d'une simple traction et se transforme en chariot de courses.</p>
+  <div class="steps">
+    <div class="step">
+      <span class="step-icon">🚗</span>
+      <div class="step-num">1</div>
+      <h3>Ouvrez le coffre</h3>
+      <p>CADISY est rangé replié dans le coffre — compact et discret comme une civière dans une ambulance.</p>
+    </div>
+    <div class="step">
+      <span class="step-icon">↔️</span>
+      <div class="step-num">2</div>
+      <h3>Glissez-le hors du coffre</h3>
+      <p>D'une simple traction, il sort sur ses rails vers vous — exactement comme une civière qui se déploie.</p>
+    </div>
+    <div class="step">
+      <span class="step-icon">🛒</span>
+      <div class="step-num">3</div>
+      <h3>Il se déplie en chariot</h3>
+      <p>Une fois sorti, il se pose sur ses roues et devient votre caddie. Prêt à faire vos courses debout.</p>
+    </div>
+    <div class="step">
+      <span class="step-icon">🏠</span>
+      <div class="step-num">4</div>
+      <h3>Repliez &amp; rangez</h3>
+      <p>De retour, repliez CADISY et glissez-le dans le coffre. Votre dos vous dit merci.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ AVANTAGES ═══════ -->
+<section class="features" id="avantages">
+  <p class="section-eyebrow">Ce qui fait la différence</p>
+  <h2 class="section-title">Conçu pour<br/><em>votre santé</em></h2>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <h3>Déploiement en 5 secondes</h3>
+      <p>Mécanisme à glissières fluide et silencieux. Fiable par toutes les températures.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🏗️</div>
+      <h3>40 kg de capacité</h3>
+      <p>Structure renforcée pour les grosses courses familiales. Conçu pour durer des années.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔧</div>
+      <h3>Installation universelle</h3>
+      <p>Compatible avec 95 % des véhicules. Pose en moins de 30 minutes, sans perçage.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌿</div>
+      <h3>Matériaux éco-responsables</h3>
+      <p>Aluminium recyclé, composants durables. Parce que votre santé et celle de la planète comptent.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🛒</div>
+      <h3>Caddie toujours avec vous</h3>
+      <p>Plus besoin de ramener un caddie du magasin. Le vôtre est toujours dans votre coffre.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎓</div>
+      <h3>Initiative étudiante belge</h3>
+      <p>Né à la Solvay Brussels School, CADISY est un projet pensé pour résoudre un vrai problème du quotidien.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FORMULAIRE PRÉCOMMANDE ═══════ -->
+<section id="precommande">
+  <p class="section-eyebrow">Sans paiement immédiat</p>
+  <h2 class="section-title">Précommandez<br/><em>CADISY</em></h2>
+  <p class="form-intro">
+    CADISY est en cours de développement. En précommandant aujourd'hui, vous nous aidez à concrétiser ce projet et bénéficiez du prix de lancement. <strong style="color:rgba(255,255,255,.7)">Aucun paiement maintenant</strong> — nous vous recontactons avec l'offre finale avant tout prélèvement.
+  </p>
+
+  <div class="form-layout">
+
+    <!-- AVANTAGES -->
+    <div class="form-perks">
+      <div class="perk">
+        <div class="perk-icon">🥇</div>
+        <div>
+          <h4>Accès prioritaire</h4>
+          <p>Vous êtes contacté avant le grand public pour réserver au tarif de lancement.</p>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">💸</div>
+        <div>
+          <h4>Prix de lancement exclusif</h4>
+          <p>Tarif préférentiel garanti, uniquement pour les précommandes.</p>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">📦</div>
+        <div>
+          <h4>Zéro engagement</h4>
+          <p>Aucune carte bancaire. Vous confirmez uniquement à réception de l'offre finale.</p>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🔔</div>
+        <div>
+          <h4>Suivi du projet</h4>
+          <p>Recevez nos avancées et photos du produit final en avant-première.</p>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🛡️</div>
+        <div>
+          <h4>Données protégées</h4>
+          <p>Conformité RGPD. Jamais revendues. Supprimées sur demande.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMULAIRE -->
+    <div class="form-box" id="formBox">
+      <h3 class="form-box-title">Précommande — sans paiement immédiat</h3>
+      <p class="form-box-note">Remplissez ce formulaire en 60 secondes. Nous vous écrivons avec l'offre finale avant tout paiement.</p>
+
+      <div class="row2">
+        <div class="field">
+          <label for="prenom">Prénom *</label>
+          <input type="text" id="prenom" placeholder="Jean"/>
+        </div>
+        <div class="field">
+          <label for="nom">Nom *</label>
+          <input type="text" id="nom" placeholder="Dupont"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Adresse e-mail *</label>
+        <input type="email" id="email" placeholder="jean.dupont@exemple.be"/>
+      </div>
+
+      <div class="field">
+        <label for="tel">Téléphone (optionnel)</label>
+        <input type="tel" id="tel" placeholder="+32 470 12 34 56"/>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="cp">Code postal *</label>
+          <input type="text" id="cp" placeholder="1000" maxlength="10"/>
+        </div>
+        <div class="field">
+          <label for="ville">Ville *</label>
+          <input type="text" id="ville" placeholder="Bruxelles"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="qte">Quantité souhaitée *</label>
+        <select id="qte">
+          <option value="1">1 exemplaire</option>
+          <option value="2">2 exemplaires</option>
+          <option value="3+">3 exemplaires ou plus</option>
+          <option value="pro">Usage professionnel / revendeur</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="vehicule">Type de véhicule (optionnel)</label>
+        <select id="vehicule">
+          <option value="">— Sélectionner —</option>
+          <option>Berline</option>
+          <option>Break / Familiale</option>
+          <option>SUV / 4x4</option>
+          <option>Monospace</option>
+          <option>Citadine</option>
+          <option>Utilitaire</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Message (optionnel)</label>
+        <textarea id="message" placeholder="Une question, un besoin spécifique, un contexte particulier…"></textarea>
+      </div>
+
+      <div class="rgpd-row">
+        <input type="checkbox" id="rgpd"/>
+        <label for="rgpd">
+          J'accepte que mes informations soient utilisées uniquement pour être contacté(e) à propos de CADISY. Aucune revente, aucun spam.
+          <a href="#">Politique de confidentialité</a>.
+        </label>
+      </div>
+
+      <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
+        🛒 Précommander CADISY
+      </button>
+
+      <!-- SUCCÈS -->
+      <div class="success-box" id="successBox">
+        <div class="success-icon">✓</div>
+        <h3>Précommande enregistrée !</h3>
+        <p>Merci ! Nous vous contacterons avec l'offre finale avant tout paiement. À très bientôt !</p>
+        <div class="success-recap">
+          <h4>Récapitulatif</h4>
+          <pre id="successDetails"></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo"><span>🌿</span> CADI<span>SY</span></a>
+      <p>Le caddie qui se déplie hors de votre coffre comme une civière. Un projet étudiant né à la Solvay Brussels School of Economics and Management.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#probleme">Le problème</a></li>
+        <li><a href="#fonctionnement">Fonctionnement</a></li>
+        <li><a href="#avantages">Avantages</a></li>
+        <li><a href="#precommande">Précommander</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Contact &amp; légal</h4>
+      <ul>
+        <li><a href="mailto:contact@cadisy.be">contact@cadisy.be</a></li>
+        <li><a href="#">Mentions légales</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">RGPD — Suppression des données</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 CADISY — Projet étudiant Solvay Brussels School</p>
+    <p>🇧🇪 Initiative belge</p>
+  </div>
+</footer>
+
+<script>
+/* ── MENU MOBILE ── */
+function toggleMenu(){
+  const m = document.getElementById('mobileMenu');
+  m.classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+// fermer menu si clic ailleurs
+document.addEventListener('click', function(e){
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  if(menu.classList.contains('open') && !menu.contains(e.target) && !burger.contains(e.target)){
+    menu.classList.remove('open');
+  }
+});
+
+/* ── SCROLL REVEAL ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feat-card, .step, .perk, .pain-item, .counter-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(22px)';
+  el.style.transition = 'opacity .55s ease, transform .55s ease';
+  io.observe(el);
+});
+
+/* ── FORMULAIRE ── */
+function submitForm(){
+  // reset erreurs
+  document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+
+  const get = id => document.getElementById(id).value.trim();
+  const prenom = get('prenom'), nom = get('nom');
+  const email  = get('email'), cp = get('cp'), ville = get('ville');
+  const rgpd   = document.getElementById('rgpd').checked;
+
+  let ok = true;
+  function markError(id){ document.getElementById(id).classList.add('error'); ok = false; }
+
+  if(!prenom) markError('prenom');
+  if(!nom)    markError('nom');
+  if(!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) markError('email');
+  if(!cp)     markError('cp');
+  if(!ville)  markError('ville');
+
+  if(!ok){
+    // scroller vers le premier champ en erreur
+    document.querySelector('.error').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  if(!rgpd){
+    document.getElementById('rgpd').focus();
+    alert("Merci d'accepter la politique de confidentialité pour continuer.");
+    return;
+  }
+
+  const tel     = get('tel');
+  const qteSel  = document.getElementById('qte');
+  const vehSel  = document.getElementById('vehicule');
+  const message = get('message');
+  const qte = qteSel.options[qteSel.selectedIndex].text;
+  const veh = vehSel.value ? vehSel.options[vehSel.selectedIndex].text : 'Non précisé';
+  const date = new Date().toLocaleDateString('fr-BE',{day:'2-digit',month:'long',year:'numeric'});
+
+  const recap = [
+    `Nom          : ${prenom} ${nom}`,
+    `E-mail       : ${email}`,
+    tel ? `Téléphone    : ${tel}` : null,
+    `Localisation : ${cp} ${ville}`,
+    `Quantité     : ${qte}`,
+    `Véhicule     : ${veh}`,
+    message ? `Message      : ${message}` : null,
+    `Précommandé le : ${date}`
+  ].filter(Boolean).join('\n');
+
+  document.getElementById('successDetails').textContent = recap;
+
+  // stocker localement (facultatif)
+  try{
+    const arr = JSON.parse(localStorage.getItem('cadisy_leads')||'[]');
+    arr.push({prenom,nom,email,tel,cp,ville,qte,veh,message,date:new Date().toISOString()});
+    localStorage.setItem('cadisy_leads', JSON.stringify(arr));
+  }catch(_){}
+
+  // cacher le formulaire, afficher succès
+  const box = document.getElementById('formBox');
+  box.querySelectorAll('.row2,.field,.rgpd-row,#btnSubmit,.form-box-title,.form-box-note')
+     .forEach(el => el.style.display = 'none');
+  const s = document.getElementById('successBox');
+  s.style.display = 'block';
+  s.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ── NAV ACTIVE STATE ── */
+const sections = document.querySelectorAll('section[id], div[id]');
+const navLinks = document.querySelectorAll('nav ul li a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`nav ul li a[href="#${e.target.id}"]`);
+      if(active) active.classList.add('active');
+    }
+  });
+}, {rootMargin:'-40% 0px -55% 0px'});
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
