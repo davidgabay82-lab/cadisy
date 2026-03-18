@@ -3,723 +3,1128 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CADISY — Le caddie qui sort de votre coffre</title>
+<title>CADISY — Libérez votre dos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,900;1,300;1,600;1,900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
 <style>
-/* ═══════════════════════════════════════
-   DESIGN SYSTEM — VERT ÉCO SANTÉ
-═══════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   CADISY — PREMIUM ECO-HEALTH DESIGN SYSTEM
+═══════════════════════════════════════════ */
 :root{
-  /* Verts */
-  --g900: #0D2B1A;
-  --g800: #14401F;
-  --g700: #1C5C2E;
-  --g600: #237A3A;
-  --g500: #2E9B48;
-  --g400: #4DB866;
-  --g300: #82D098;
-  --g200: #C0EACB;
-  --g100: #E8F7EC;
-  --g50:  #F3FBF5;
-
-  /* Accent naturel — mousse/sauge */
-  --sage: #6B8C6F;
-  --sage-light: #A8C5AC;
-
-  /* Blanc / off-white */
-  --white: #FFFFFF;
-  --off: #F7FAF8;
-
-  /* Texte */
-  --text: #0F1F14;
-  --muted: #5A6E5E;
-  --light-text: #8FA894;
-
-  /* Bordures */
-  --border: #D4E8D8;
-  --border-dark: #B5D4BB;
+  --forest:   #0A2414;
+  --deep:     #0F3020;
+  --rich:     #165A34;
+  --mid:      #1E7A46;
+  --vivid:    #27A85E;
+  --bright:   #3DD17C;
+  --mint:     #85EBB0;
+  --sage:     #7FAF8A;
+  --cream:    #F2EDE4;
+  --warm:     #FAF7F2;
+  --white:    #FFFFFF;
+  --text:     #0C1F12;
+  --muted:    #4A6652;
+  --light:    #9AB4A1;
+  --border:   #D8EBE0;
+  --gold:     #C8A96E;
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);overflow-x:hidden}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--vivid) var(--forest)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--forest)}
+::-webkit-scrollbar-thumb{background:var(--vivid);border-radius:4px}
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
-.a1{animation:fadeUp .7s .05s ease both}
-.a2{animation:fadeUp .7s .2s ease both}
-.a3{animation:fadeUp .7s .35s ease both}
-.a4{animation:fadeUp .7s .5s ease both}
-.a5{animation:fadeUp .7s .65s ease both}
-
-/* ══════════════ NAV ══════════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:999;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1rem 5vw;
-  background:rgba(13,43,26,.96);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,.08);
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--warm);color:var(--text);
+  overflow-x:hidden;cursor:none;
 }
-.logo{
-  font-family:'Fraunces',serif;font-size:1.65rem;font-weight:900;
-  letter-spacing:.04em;color:var(--white);text-decoration:none;
+
+/* ── CUSTOM CURSOR ── */
+.cursor{
+  position:fixed;width:10px;height:10px;border-radius:50%;
+  background:var(--vivid);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:transform .1s,width .3s,height .3s,background .3s;
+  mix-blend-mode:difference;
+}
+.cursor-ring{
+  position:fixed;width:36px;height:36px;border-radius:50%;
+  border:1.5px solid var(--vivid);pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);transition:transform .12s ease,width .3s,height .3s,opacity .3s;
+  opacity:.6;
+}
+.cursor.grow{width:20px;height:20px}
+.cursor-ring.grow{width:56px;height:56px;opacity:.3}
+@media(hover:none){.cursor,.cursor-ring{display:none}body{cursor:auto}}
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideRight{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}33%{transform:translateY(-18px) rotate(2deg)}66%{transform:translateY(-8px) rotate(-1deg)}}
+@keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(-3deg)}}
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.95)}}
+@keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes lineGrow{from{width:0}to{width:100%}}
+@keyframes popIn{0%{opacity:0;transform:scale(.8)}100%{opacity:1;transform:scale(1)}}
+@keyframes shimmerMove{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes particleDrift{
+  0%{transform:translateY(0) translateX(0) scale(1);opacity:.7}
+  100%{transform:translateY(-100vh) translateX(var(--dx)) scale(0);opacity:0}
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 5vw;
+  transition:background .4s,backdrop-filter .4s,border-color .4s;
+}
+nav.scrolled{
+  background:rgba(10,36,20,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-logo{
+  font-family:'Clash Display',sans-serif;font-size:1.5rem;font-weight:700;
+  color:var(--white);text-decoration:none;letter-spacing:.05em;
   display:flex;align-items:center;gap:.4rem;
 }
-.logo-leaf{font-size:1.2rem}
-.logo span{color:var(--g400)}
-nav ul{list-style:none;display:flex;align-items:center;gap:2rem}
-nav ul li a{
-  text-decoration:none;color:rgba(255,255,255,.65);
-  font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
-  transition:color .2s;
+.nav-logo .leaf{
+  width:28px;height:28px;background:var(--vivid);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
 }
-nav ul li a:hover{color:var(--g300)}
-.btn-nav{
-  background:var(--g500) !important;color:white !important;
-  padding:.6rem 1.4rem !important;border-radius:6px;
-  font-weight:600 !important;transition:background .2s,transform .15s !important;
-  letter-spacing:.04em !important;
+nav ul{list-style:none;display:flex;align-items:center;gap:2.5rem}
+nav ul a{
+  text-decoration:none;color:rgba(255,255,255,.6);
+  font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  transition:color .2s;position:relative;
 }
-.btn-nav:hover{background:var(--g600) !important;transform:translateY(-1px) !important}
+nav ul a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;
+  background:var(--bright);transform:scaleX(0);transform-origin:left;
+  transition:transform .25s;
+}
+nav ul a:hover{color:white}
+nav ul a:hover::after{transform:scaleX(1)}
+.nav-cta{
+  background:var(--vivid);color:white !important;
+  padding:.65rem 1.5rem;border-radius:50px;
+  font-weight:600 !important;transition:all .25s !important;
+  letter-spacing:.05em !important;
+}
+.nav-cta::after{display:none !important}
+.nav-cta:hover{background:var(--bright);color:var(--forest) !important;transform:translateY(-2px);box-shadow:0 8px 24px rgba(61,209,124,.35)}
 
-/* hamburger mobile */
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.hamburger span{display:block;width:22px;height:2px;background:white;border-radius:2px;transition:.3s}
-.mobile-menu{
-  display:none;position:fixed;top:62px;left:0;right:0;z-index:998;
-  background:rgba(13,43,26,.98);backdrop-filter:blur(18px);
-  flex-direction:column;padding:1.5rem 5vw 2rem;gap:1rem;
-  border-bottom:1px solid rgba(255,255,255,.08);
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:4px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:1.5px;background:white;border-radius:2px;transition:.3s}
+.mob-menu{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:400;
+  background:var(--forest);flex-direction:column;align-items:center;justify-content:center;
+  gap:2rem;
 }
-.mobile-menu a{
-  text-decoration:none;color:rgba(255,255,255,.75);
-  font-size:.95rem;font-weight:500;padding:.5rem 0;
-  border-bottom:1px solid rgba(255,255,255,.07);transition:color .2s;
+.mob-menu.open{display:flex}
+.mob-menu a{
+  font-family:'Clash Display',sans-serif;font-size:2.5rem;font-weight:700;
+  color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s;letter-spacing:.04em;
 }
-.mobile-menu a:hover{color:var(--g300)}
-.mobile-menu .btn-mobile{
-  margin-top:.5rem;background:var(--g500);color:white;
-  padding:.9rem 1.4rem;border-radius:6px;font-weight:700;text-align:center;
-  border-bottom:none;
+.mob-menu a:hover{color:white}
+.mob-close{
+  position:absolute;top:1.5rem;right:5vw;background:none;border:none;
+  color:white;font-size:1.5rem;cursor:none;
 }
-.mobile-menu.open{display:flex}
-@media(max-width:768px){nav ul{display:none}.hamburger{display:flex}}
+@media(max-width:800px){nav ul{display:none}.hamburger{display:flex}}
 
-/* ══════════════ HERO ══════════════ */
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
 .hero{
-  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
-  background:linear-gradient(150deg,var(--g900) 0%,var(--g800) 50%,#1a4a2a 100%);
-  position:relative;overflow:hidden;padding-top:62px;
+  min-height:100vh;
+  background:var(--forest);
+  display:grid;grid-template-columns:1fr 1fr;
+  position:relative;overflow:hidden;
+  padding-top:72px;
 }
-/* motif feuilles / texture */
-.hero::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background-image:
-    radial-gradient(ellipse 60% 55% at 75% 45%, rgba(46,155,72,.18) 0%, transparent 60%),
-    radial-gradient(ellipse 30% 30% at 15% 80%, rgba(77,184,102,.1) 0%, transparent 55%);
+
+/* Gradient mesh background */
+.hero-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 75% 50%, rgba(30,122,70,.3) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(39,168,94,.12) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 50% at 85% 15%, rgba(61,209,124,.08) 0%, transparent 50%);
 }
+
+/* Particle container */
+#particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;border-radius:50%;background:var(--bright);
+  animation:particleDrift linear infinite;opacity:0;
+}
+
+/* Large decorative circle */
+.hero-circle{
+  position:absolute;right:-15%;top:50%;transform:translateY(-50%);
+  width:650px;height:650px;border-radius:50%;
+  border:1px solid rgba(61,209,124,.1);pointer-events:none;
+}
+.hero-circle::before{
+  content:'';position:absolute;inset:40px;border-radius:50%;
+  border:1px solid rgba(61,209,124,.08);
+}
+.hero-circle::after{
+  content:'';position:absolute;inset:80px;border-radius:50%;
+  border:1px solid rgba(61,209,124,.06);
+}
+
 .hero-left{
   display:flex;flex-direction:column;justify-content:center;
   padding:5rem 3rem 5rem 8vw;position:relative;z-index:2;
 }
-.badge{
-  display:inline-flex;align-items:center;gap:.55rem;
-  background:rgba(77,184,102,.15);border:1px solid rgba(77,184,102,.4);
-  color:var(--g300);font-size:.72rem;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;padding:.42rem 1rem;border-radius:30px;
-  width:fit-content;margin-bottom:1.8rem;
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:rgba(61,209,124,.1);border:1px solid rgba(61,209,124,.3);
+  color:var(--mint);font-size:.7rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;padding:.45rem 1.1rem;border-radius:30px;
+  width:fit-content;margin-bottom:2rem;
+  animation:popIn .6s .1s ease both;
 }
-.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--g400);animation:pulse 2s ease infinite;flex-shrink:0}
+.tag-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--bright);
+  animation:pulse 2.5s ease infinite;
+}
+
 .hero-title{
-  font-family:'Fraunces',serif;
-  font-size:clamp(2.8rem,4.8vw,5rem);font-weight:900;line-height:1.05;
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(3rem,5.5vw,5.8rem);font-weight:700;line-height:1.02;
   color:var(--white);
+  animation:fadeUp .8s .2s ease both;
 }
-.hero-title em{font-style:italic;color:var(--g400)}
+.hero-title .line{display:block;overflow:hidden}
+.hero-title .accent{
+  font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+  background:linear-gradient(135deg,var(--bright),var(--mint),var(--vivid));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:gradShift 4s ease infinite;
+}
+
+.hero-divider{
+  width:60px;height:2px;background:var(--vivid);
+  border-radius:2px;margin:2rem 0;
+  animation:slideRight .6s .5s ease both;transform-origin:left;
+}
+
 .hero-sub{
-  margin-top:1.6rem;font-size:1.05rem;line-height:1.78;
-  color:rgba(255,255,255,.6);max-width:420px;
+  font-size:1.08rem;line-height:1.8;color:rgba(255,255,255,.55);
+  max-width:400px;
+  animation:fadeUp .8s .4s ease both;
 }
-.hero-actions{display:flex;align-items:center;gap:1.3rem;margin-top:2.8rem;flex-wrap:wrap}
-.btn-primary{
-  background:var(--g500);color:white;
-  padding:1rem 2.4rem;border-radius:8px;
-  font-size:.92rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-  text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;
-  border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+
+.hero-actions{
+  display:flex;align-items:center;gap:1.4rem;margin-top:2.8rem;flex-wrap:wrap;
+  animation:fadeUp .8s .55s ease both;
 }
-.btn-primary:hover{background:var(--g600);transform:translateY(-2px);box-shadow:0 10px 30px rgba(35,122,58,.4)}
-.btn-secondary{
-  color:rgba(255,255,255,.8);border:1.5px solid rgba(255,255,255,.25);
-  padding:.95rem 1.8rem;border-radius:8px;font-size:.88rem;font-weight:500;
-  text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem;
+.btn-hero{
+  background:linear-gradient(135deg,var(--vivid),var(--bright));
+  color:var(--forest);padding:1.05rem 2.6rem;border-radius:50px;
+  font-family:'Clash Display',sans-serif;font-size:.88rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;text-decoration:none;
+  transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;
+  border:none;cursor:none;position:relative;overflow:hidden;
 }
-.btn-secondary:hover{border-color:var(--g400);color:var(--g300)}
-.hero-proof{display:flex;align-items:center;gap:.9rem;margin-top:3rem}
-.proof-badge{
-  background:rgba(77,184,102,.12);border:1px solid rgba(77,184,102,.3);
-  border-radius:8px;padding:.6rem 1rem;display:flex;align-items:center;gap:.6rem;
+.btn-hero::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);
+  background-size:200% auto;
+  animation:shimmerMove 3s ease infinite;
 }
-.proof-badge .flag{font-size:1.2rem}
-.proof-text{font-size:.8rem;color:rgba(255,255,255,.55);line-height:1.4}
-.proof-text strong{color:var(--g300);display:block}
+.btn-hero:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 15px 40px rgba(61,209,124,.45)}
+.btn-play{
+  color:rgba(255,255,255,.7);font-size:.88rem;font-weight:400;
+  text-decoration:none;display:flex;align-items:center;gap:.7rem;
+  transition:color .2s;
+}
+.btn-play:hover{color:white}
+.play-icon{
+  width:44px;height:44px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;transition:all .3s;
+}
+.btn-play:hover .play-icon{border-color:var(--bright);background:rgba(61,209,124,.1)}
+
+.hero-badges{
+  display:flex;gap:1.2rem;margin-top:3.5rem;flex-wrap:wrap;
+  animation:fadeUp .8s .7s ease both;
+}
+.hero-badge-item{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:.78rem;color:rgba(255,255,255,.4);
+}
+.hero-badge-item span{color:var(--bright);font-size:.9rem}
 
 .hero-right{
   display:flex;align-items:center;justify-content:center;
-  position:relative;z-index:2;padding:3rem 4rem 3rem 2rem;
+  position:relative;z-index:2;padding:3rem;
 }
-.caddie-visual{
-  position:relative;width:100%;max-width:480px;
-  animation:floatY 5s ease-in-out infinite;
+.hero-visual{
+  position:relative;width:100%;max-width:520px;
+  animation:float 7s ease-in-out infinite;
 }
-.caddie-glow{
+.visual-glow{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:320px;height:320px;border-radius:50%;
-  background:radial-gradient(circle,rgba(46,155,72,.35) 0%,transparent 70%);
-  filter:blur(35px);pointer-events:none;
+  width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(61,209,124,.25) 0%,transparent 65%);
+  filter:blur(40px);animation:pulse 4s ease infinite;
 }
+.visual-card{
+  position:absolute;background:rgba(255,255,255,.05);
+  backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:.9rem 1.2rem;
+}
+.visual-card-1{
+  top:8%;right:-5%;
+  animation:float2 5s ease-in-out infinite;
+}
+.visual-card-2{
+  bottom:12%;left:-8%;
+  animation:float2 6s 1s ease-in-out infinite;
+}
+.vc-label{font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem}
+.vc-value{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;color:white}
+.vc-sub{font-size:.7rem;color:var(--mint)}
 
-/* ══════════════ COUNTER BAR ══════════════ */
-.counter-bar{
-  background:var(--g700);padding:1.2rem 5vw;
-  display:flex;align-items:center;justify-content:center;
-  gap:0;flex-wrap:wrap;
+/* ══════════════════════════════════════
+   MARQUEE STRIP
+══════════════════════════════════════ */
+.marquee-strip{
+  background:var(--vivid);padding:.85rem 0;overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.1);
 }
-.counter-item{
-  text-align:center;padding:.6rem 3.5vw;
-  border-right:1px solid rgba(255,255,255,.15);
+.marquee-track{
+  display:flex;gap:0;white-space:nowrap;
+  animation:marqueeScroll 25s linear infinite;
 }
-.counter-item:last-child{border-right:none}
-.counter-num{
-  font-family:'Fraunces',serif;font-size:2rem;font-weight:900;
-  color:var(--g300);line-height:1;
+@keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{
+  display:inline-flex;align-items:center;gap:.7rem;
+  padding:0 2.5rem;font-family:'Clash Display',sans-serif;
+  font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--forest);flex-shrink:0;
 }
-.counter-label{font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.3rem}
+.marquee-dot{width:5px;height:5px;border-radius:50%;background:var(--forest);opacity:.5}
 
-/* ══════════════ SECTIONS BASE ══════════════ */
-section{padding:5.5rem 8vw}
-.section-eyebrow{
-  font-size:.75rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--g600);margin-bottom:.9rem;
-  display:flex;align-items:center;gap:.6rem;
+/* ══════════════════════════════════════
+   STATS SECTION
+══════════════════════════════════════ */
+.stats{
+  background:var(--white);padding:5rem 8vw;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;
+  position:relative;
 }
-.section-eyebrow::before{content:'';display:block;width:28px;height:2px;background:var(--g500);border-radius:2px}
-.section-title{
-  font-family:'Fraunces',serif;
-  font-size:clamp(2rem,3.3vw,3rem);font-weight:900;line-height:1.08;color:var(--g900);
+.stats::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--vivid),var(--bright),var(--vivid));
+  background-size:200% auto;animation:gradShift 3s ease infinite;
 }
-.section-title em{font-style:italic;color:var(--g600)}
-
-/* ══════════════ PROBLEM ══════════════ */
-.problem{background:var(--white);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.problem-text>p{margin-top:1.4rem;font-size:1rem;line-height:1.8;color:var(--muted)}
-.pain-list{margin-top:2.2rem;display:flex;flex-direction:column;gap:1rem}
-.pain-item{
-  display:flex;align-items:flex-start;gap:1rem;
-  padding:1.1rem 1.3rem;background:var(--g50);border-radius:8px;
-  border-left:3px solid var(--g500);transition:border-color .2s;
+.stat-item{
+  text-align:center;padding:3rem 2rem;
+  border-right:1px solid var(--border);position:relative;overflow:hidden;
 }
-.pain-item:hover{border-left-color:var(--g700)}
-.pain-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem}
-.pain-item strong{display:block;font-size:.9rem;font-weight:700;margin-bottom:.25rem;color:var(--g900)}
-.pain-item p{font-size:.87rem;color:var(--muted);line-height:1.55}
-.problem-visual{
-  background:linear-gradient(150deg,var(--g900) 0%,var(--g800) 100%);
-  border-radius:14px;padding:3rem 2.5rem;
-  display:flex;align-items:center;justify-content:center;
-  min-height:360px;position:relative;overflow:hidden;
-}
-.problem-visual::after{
+.stat-item:last-child{border-right:none}
+.stat-item::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 60% 55% at 25% 70%,rgba(46,155,72,.25) 0%,transparent 60%);
-  pointer-events:none;
+  background:linear-gradient(180deg,var(--warm) 0%,transparent 100%);
+  opacity:0;transition:opacity .3s;
 }
+.stat-item:hover::before{opacity:1}
+.stat-num{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(2.5rem,4vw,4rem);font-weight:700;
+  background:linear-gradient(135deg,var(--rich),var(--vivid));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;margin-bottom:.5rem;
+}
+.stat-label{font-size:.8rem;color:var(--muted);letter-spacing:.05em;line-height:1.45}
 
-/* ══════════════ HOW ══════════════ */
-.how{background:var(--g900)}
-.how .section-eyebrow{color:var(--g300)}
-.how .section-eyebrow::before{background:var(--g400)}
-.how .section-title{color:white}
-.how .section-title em{color:var(--g400)}
-.how-subtitle{margin-top:1rem;color:rgba(255,255,255,.5);font-size:.95rem;max-width:520px;line-height:1.7}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3.5rem;position:relative}
-.steps::before{
-  content:'';position:absolute;top:44px;left:12%;right:12%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(77,184,102,.5) 25%,rgba(77,184,102,.5) 75%,transparent);
+/* ══════════════════════════════════════
+   PROBLEM SECTION
+══════════════════════════════════════ */
+.problem{
+  padding:7rem 8vw;background:var(--warm);
+  display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center;
 }
-.step{text-align:center;position:relative}
-.step-num{
-  width:52px;height:52px;border-radius:50%;
-  background:var(--g600);color:white;
-  font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 1.3rem;position:relative;z-index:1;
-  border:3px solid var(--g900);
-  box-shadow:0 0 0 1px var(--g500);
+.eyebrow{
+  font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--vivid);margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:.8rem;
 }
-.step-icon{font-size:1.8rem;margin-bottom:.7rem;display:block}
-.step h3{font-size:.97rem;font-weight:700;color:white;margin-bottom:.55rem}
-.step p{font-size:.85rem;line-height:1.65;color:rgba(255,255,255,.48)}
-
-/* ══════════════ FEATURES ══════════════ */
-.features{background:var(--g50)}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;margin-top:3rem}
-.feat-card{
-  background:var(--white);border-radius:10px;
-  padding:2rem 1.8rem;border:1.5px solid var(--border);
+.eyebrow::before{
+  content:'';display:block;width:24px;height:2px;
+  background:var(--vivid);border-radius:2px;
+}
+.section-h{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(2.2rem,3.5vw,3.4rem);font-weight:700;line-height:1.06;color:var(--text);
+}
+.section-h em{
+  font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+  color:var(--rich);
+}
+.prob-desc{margin-top:1.4rem;font-size:1rem;line-height:1.85;color:var(--muted)}
+.pain-cards{margin-top:2.5rem;display:flex;flex-direction:column;gap:.9rem}
+.pain-card{
+  display:flex;align-items:flex-start;gap:1.1rem;
+  padding:1.2rem 1.4rem;background:var(--white);border-radius:12px;
+  border:1px solid var(--border);
   transition:all .3s;position:relative;overflow:hidden;
 }
-.feat-card::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--g500),var(--g400));
-  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+.pain-card::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--vivid),var(--bright));
+  transform:scaleY(0);transform-origin:top;transition:transform .3s;
 }
-.feat-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(13,43,26,.1);border-color:var(--border-dark)}
-.feat-card:hover::after{transform:scaleX(1)}
-.feat-icon{
-  width:48px;height:48px;
-  background:linear-gradient(135deg,var(--g600),var(--g500));
-  border-radius:10px;display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;margin-bottom:1.2rem;
+.pain-card:hover{transform:translateX(6px);border-color:var(--border);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.pain-card:hover::after{transform:scaleY(1)}
+.pain-em{
+  width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--rich),var(--vivid));
+  display:flex;align-items:center;justify-content:center;font-size:1.15rem;
 }
-.feat-card h3{font-size:1rem;font-weight:700;color:var(--g900);margin-bottom:.55rem}
-.feat-card p{font-size:.87rem;line-height:1.65;color:var(--muted)}
+.pain-card strong{display:block;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
+.pain-card p{font-size:.84rem;color:var(--muted);line-height:1.55}
 
-/* ══════════════ FORM SECTION ══════════════ */
-#precommande{
-  background:linear-gradient(150deg,var(--g800) 0%,var(--g900) 100%);
+.problem-visual-wrap{position:relative}
+.prob-big-number{
+  position:absolute;top:-2rem;right:-1rem;
+  font-family:'Clash Display',sans-serif;font-size:9rem;font-weight:700;
+  color:var(--border);line-height:1;pointer-events:none;user-select:none;z-index:0;
+}
+.prob-card{
+  position:relative;z-index:1;
+  background:linear-gradient(150deg,var(--deep) 0%,var(--forest) 100%);
+  border-radius:20px;padding:3.5rem;overflow:hidden;
+  box-shadow:0 30px 80px rgba(10,36,20,.3);
+}
+.prob-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(61,209,124,.2) 0%,transparent 65%);
+}
+.prob-svg-wrap{display:flex;justify-content:center}
+
+/* ══════════════════════════════════════
+   HOW IT WORKS
+══════════════════════════════════════ */
+.how{padding:7rem 8vw;background:var(--white)}
+.how-head{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:4rem}
+.how-desc{font-size:1rem;line-height:1.8;color:var(--muted);margin-top:1rem}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative}
+.how-line{
+  position:absolute;top:52px;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);
+}
+.how-step{
+  background:var(--warm);border:1px solid var(--border);
+  border-radius:16px;padding:2rem 1.5rem;
+  transition:all .4s;position:relative;overflow:hidden;
+}
+.how-step::after{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  background:linear-gradient(150deg,var(--deep),var(--rich));
+  opacity:0;transition:opacity .4s;z-index:0;
+}
+.how-step:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(10,36,20,.15);border-color:transparent}
+.how-step:hover::after{opacity:1}
+.how-step:hover .step-n,.how-step:hover h3,.how-step:hover p{color:white}
+.how-step:hover .step-n{background:rgba(255,255,255,.15);color:var(--bright)}
+.step-n{
+  width:50px;height:50px;border-radius:50%;
+  background:var(--white);border:1.5px solid var(--border);
+  font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;
+  color:var(--rich);display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;position:relative;z-index:1;
+  transition:all .4s;
+}
+.step-ico{font-size:1.6rem;text-align:center;margin-bottom:.8rem;position:relative;z-index:1}
+.how-step h3{
+  font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;
+  color:var(--text);margin-bottom:.55rem;text-align:center;
+  position:relative;z-index:1;transition:color .4s;
+}
+.how-step p{
+  font-size:.82rem;line-height:1.65;color:var(--muted);text-align:center;
+  position:relative;z-index:1;transition:color .4s;
+}
+
+/* ══════════════════════════════════════
+   FEATURES
+══════════════════════════════════════ */
+.features{
+  padding:7rem 8vw;
+  background:linear-gradient(160deg,var(--forest) 0%,var(--deep) 100%);
   position:relative;overflow:hidden;
 }
-#precommande::before{
-  content:'';position:absolute;top:-20%;right:-5%;
+.features::before{
+  content:'';position:absolute;top:-100px;right:-100px;
   width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(46,155,72,.2) 0%,transparent 65%);
+  background:radial-gradient(circle,rgba(61,209,124,.15) 0%,transparent 65%);
   pointer-events:none;
 }
-#precommande .section-eyebrow{color:var(--g300)}
-#precommande .section-eyebrow::before{background:var(--g400)}
-#precommande .section-title{color:white}
-#precommande .section-title em{color:var(--g400)}
-.form-intro{color:rgba(255,255,255,.55);font-size:.95rem;line-height:1.75;margin-top:1rem;max-width:500px}
-.form-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:5rem;align-items:start;margin-top:3.5rem}
+.features .eyebrow{color:var(--mint)}
+.features .eyebrow::before{background:var(--bright)}
+.features .section-h{color:white}
+.features .section-h em{color:var(--bright)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
+.feat-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;padding:2rem;
+  transition:all .35s;position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  background:linear-gradient(150deg,rgba(61,209,124,.08),rgba(61,209,124,.02));
+  opacity:0;transition:opacity .35s;
+}
+.feat-card:hover{transform:translateY(-6px);border-color:rgba(61,209,124,.25);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.feat-card:hover::before{opacity:1}
+.feat-ico{
+  width:50px;height:50px;border-radius:12px;
+  background:linear-gradient(135deg,var(--rich),var(--mid));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.3rem;
+  box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+.feat-card h3{
+  font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;
+  color:white;margin-bottom:.55rem;
+}
+.feat-card p{font-size:.84rem;line-height:1.65;color:rgba(255,255,255,.45)}
 
-/* perks */
-.form-perks{display:flex;flex-direction:column;gap:1.3rem}
-.perk{display:flex;align-items:flex-start;gap:1rem}
-.perk-icon{
-  width:42px;height:42px;flex-shrink:0;border-radius:8px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  display:flex;align-items:center;justify-content:center;font-size:1.15rem;
+/* ══════════════════════════════════════
+   TESTIMONIAL / QUOTE
+══════════════════════════════════════ */
+.quote-section{
+  padding:7rem 8vw;background:var(--cream);
+  display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:center;
+}
+.quote-left .eyebrow::before{background:var(--rich)}
+.big-quote{
+  font-family:'Instrument Serif',serif;font-style:italic;
+  font-size:clamp(1.8rem,3vw,2.6rem);font-weight:400;
+  line-height:1.35;color:var(--text);
+}
+.big-quote .highlight{color:var(--rich)}
+.quote-source{margin-top:2rem;display:flex;align-items:center;gap:1rem}
+.q-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rich),var(--vivid));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:700;color:white;
+}
+.q-name{font-size:.9rem;font-weight:700;color:var(--text)}
+.q-role{font-size:.78rem;color:var(--muted)}
+
+/* ══════════════════════════════════════
+   PRECOMMANDE FORM
+══════════════════════════════════════ */
+#precommande{
+  padding:7rem 8vw;
+  background:linear-gradient(160deg,var(--deep) 0%,var(--forest) 100%);
+  position:relative;overflow:hidden;
+}
+#precommande::after{
+  content:'';position:absolute;bottom:-150px;left:-150px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(61,209,124,.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+#precommande .eyebrow{color:var(--mint)}
+#precommande .eyebrow::before{background:var(--bright)}
+#precommande .section-h{color:white}
+#precommande .section-h em{color:var(--bright)}
+.form-tagline{color:rgba(255,255,255,.5);font-size:.95rem;line-height:1.75;margin-top:1rem;max-width:480px}
+
+.form-layout{
+  display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;
+  align-items:start;margin-top:4rem;
+}
+.form-perks{display:flex;flex-direction:column;gap:1.5rem}
+.perk{display:flex;align-items:flex-start;gap:1.1rem}
+.perk-ico{
+  width:44px;height:44px;flex-shrink:0;border-radius:10px;
+  background:rgba(61,209,124,.1);border:1px solid rgba(61,209,124,.2);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
   margin-top:2px;
 }
 .perk h4{font-size:.9rem;font-weight:700;color:white;margin-bottom:.2rem}
-.perk p{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.45)}
+.perk p{font-size:.8rem;line-height:1.5;color:rgba(255,255,255,.4)}
 
-/* form box */
-.form-box{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:14px;padding:2.5rem;
-  backdrop-filter:blur(12px);
+/* FORM BOX */
+.form-glass{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:2.8rem;
+  backdrop-filter:blur(16px);
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
 }
-.form-box-title{
-  font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;
-  color:white;margin-bottom:.35rem;
+.form-glass-title{
+  font-family:'Clash Display',sans-serif;font-size:1.4rem;font-weight:700;
+  color:white;margin-bottom:.4rem;
 }
-.form-box-note{font-size:.8rem;color:rgba(255,255,255,.35);margin-bottom:2rem;line-height:1.55}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.field{margin-bottom:1rem}
-.field label{
-  display:block;font-size:.76rem;font-weight:600;
-  letter-spacing:.07em;text-transform:uppercase;
-  color:rgba(255,255,255,.5);margin-bottom:.4rem;
+.form-glass-sub{font-size:.78rem;color:rgba(255,255,255,.3);margin-bottom:2rem;line-height:1.5}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fld{margin-bottom:1rem}
+.fld label{
+  display:block;font-size:.72rem;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);margin-bottom:.45rem;
 }
-.field input,.field select,.field textarea{
-  width:100%;padding:.82rem 1rem;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.13);border-radius:7px;
+.fld input,.fld select,.fld textarea{
+  width:100%;padding:.85rem 1.1rem;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);border-radius:10px;
   color:white;font-family:'DM Sans',sans-serif;font-size:.92rem;
-  outline:none;transition:border-color .2s,background .2s;
+  outline:none;transition:all .25s;
+  -webkit-appearance:none;
 }
-.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.2)}
-.field select option{background:#1C5C2E;color:white}
-.field input:focus,.field select:focus,.field textarea:focus{
-  border-color:var(--g400);background:rgba(255,255,255,.1);
+.fld input::placeholder,.fld textarea::placeholder{color:rgba(255,255,255,.18)}
+.fld select option{background:#0F3020}
+.fld input:focus,.fld select:focus,.fld textarea:focus{
+  border-color:var(--vivid);background:rgba(61,209,124,.07);
+  box-shadow:0 0 0 3px rgba(61,209,124,.12);
 }
-.field textarea{resize:none;height:88px}
-.field input.error,.field select.error{border-color:#ff6b6b}
-.rgpd-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:1.3rem}
-.rgpd-row input[type=checkbox]{width:16px;height:16px;flex-shrink:0;margin-top:3px;accent-color:var(--g400);cursor:pointer}
-.rgpd-row label{font-size:.78rem;color:rgba(255,255,255,.38);line-height:1.45;cursor:pointer}
-.rgpd-row a{color:var(--g300);text-decoration:underline}
+.fld input.err{border-color:#ff6b6b;box-shadow:0 0 0 3px rgba(255,107,107,.12)}
+.fld textarea{resize:none;height:90px}
+.rgpd{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:1.4rem}
+.rgpd input[type=checkbox]{width:16px;height:16px;flex-shrink:0;margin-top:3px;accent-color:var(--vivid);cursor:none}
+.rgpd label{font-size:.77rem;color:rgba(255,255,255,.32);line-height:1.45;cursor:none}
+.rgpd a{color:var(--mint);text-decoration:underline}
 .btn-submit{
-  width:100%;padding:1.1rem;
-  background:linear-gradient(135deg,var(--g600),var(--g500));
-  color:white;border:none;border-radius:8px;
-  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;
-  letter-spacing:.05em;text-transform:uppercase;cursor:pointer;
-  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem;
+  width:100%;padding:1.15rem;border:none;border-radius:50px;
+  background:linear-gradient(135deg,var(--vivid),var(--bright));
+  color:var(--forest);font-family:'Clash Display',sans-serif;
+  font-size:.92rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  cursor:none;transition:all .3s;position:relative;overflow:hidden;
 }
-.btn-submit:hover{background:linear-gradient(135deg,var(--g700),var(--g600));transform:translateY(-2px);box-shadow:0 10px 28px rgba(35,122,58,.45)}
-.btn-submit:active{transform:translateY(0)}
-.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-submit::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);
+  background-size:200% auto;animation:shimmerMove 3s ease infinite;
+}
+.btn-submit:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(61,209,124,.45)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-/* success */
-.success-box{display:none;text-align:center;padding:1rem .5rem}
+/* SUCCESS */
+.success-state{display:none;text-align:center;padding:2rem 1rem}
 .success-icon{
-  width:72px;height:72px;border-radius:50%;
-  background:linear-gradient(135deg,var(--g700),var(--g500));
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rich),var(--vivid));
   display:flex;align-items:center;justify-content:center;
-  margin:0 auto 1.4rem;font-size:2rem;
-  box-shadow:0 0 0 8px rgba(77,184,102,.15);
+  margin:0 auto 1.5rem;font-size:2.2rem;
+  box-shadow:0 0 0 12px rgba(61,209,124,.12);
 }
-.success-box h3{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:white;margin-bottom:.7rem}
-.success-box>p{font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:1.5rem}
+.success-state h3{
+  font-family:'Clash Display',sans-serif;font-size:1.8rem;font-weight:700;
+  color:white;margin-bottom:.8rem;
+}
+.success-state>p{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.65;margin-bottom:1.8rem}
 .success-recap{
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;padding:1.3rem;text-align:left;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:1.5rem;text-align:left;
 }
-.success-recap h4{font-size:.74rem;font-weight:700;color:var(--g300);letter-spacing:.09em;text-transform:uppercase;margin-bottom:.7rem}
-.success-recap pre{font-size:.83rem;color:rgba(255,255,255,.65);line-height:1.75;white-space:pre-wrap;font-family:'DM Sans',sans-serif}
+.success-recap h4{
+  font-size:.72rem;font-weight:700;color:var(--mint);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem;
+}
+.success-recap pre{
+  font-size:.83rem;color:rgba(255,255,255,.6);
+  line-height:1.8;white-space:pre-wrap;font-family:'DM Sans',sans-serif;
+}
 
-/* ══════════════ FOOTER ══════════════ */
-footer{background:var(--g900);padding:3.5rem 8vw 2.5rem;border-top:1px solid rgba(255,255,255,.07)}
-.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
-.foot-brand .logo{font-size:1.4rem;display:inline-flex;margin-bottom:.9rem}
-.foot-brand p{font-size:.83rem;color:rgba(255,255,255,.38);line-height:1.65;max-width:260px}
-.foot-col h4{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g300);margin-bottom:1rem}
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer{
+  background:var(--forest);padding:4rem 8vw 2rem;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.foot-logo{font-family:'Clash Display',sans-serif;font-size:1.5rem;font-weight:700;color:white;text-decoration:none;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.foot-logo .leaf{width:26px;height:26px;background:var(--vivid);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.foot-brand p{font-size:.83rem;color:rgba(255,255,255,.32);line-height:1.7;max-width:250px}
+.foot-h{font-family:'Clash Display',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:1.2rem}
 .foot-col ul{list-style:none}
-.foot-col ul li{margin-bottom:.55rem}
-.foot-col ul a{text-decoration:none;font-size:.84rem;color:rgba(255,255,255,.4);transition:color .2s}
-.foot-col ul a:hover{color:var(--g300)}
+.foot-col ul li{margin-bottom:.6rem}
+.foot-col ul a{text-decoration:none;font-size:.83rem;color:rgba(255,255,255,.35);transition:color .2s}
+.foot-col ul a:hover{color:var(--mint)}
 .foot-bottom{
-  padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.07);
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,.06);
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
 }
-.foot-bottom p{font-size:.78rem;color:rgba(255,255,255,.25)}
+.foot-bottom p{font-size:.77rem;color:rgba(255,255,255,.2)}
 
-/* ══════════════ RESPONSIVE ══════════════ */
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(32px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{
+  opacity:0;transform:translateX(-32px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{
+  opacity:0;transform:translateX(32px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
 @media(max-width:960px){
   .hero{grid-template-columns:1fr}
   .hero-right{display:none}
-  .hero-left{padding:5rem 6vw;text-align:center;align-items:center}
-  .hero-sub{margin:1.6rem auto 0}
-  .problem,.form-layout{grid-template-columns:1fr}
-  .problem-visual{min-height:240px;order:-1}
-  .steps{grid-template-columns:1fr 1fr;gap:1.8rem}
-  .steps::before{display:none}
-  .features-grid{grid-template-columns:1fr 1fr}
+  .hero-left{padding:5rem 6vw;align-items:center;text-align:center}
+  .hero-divider{margin:2rem auto}
+  .hero-sub{margin:0 auto}
+  .hero-badges{justify-content:center}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat-item:nth-child(2){border-right:none}
+  .stat-item:nth-child(3){border-top:1px solid var(--border)}
+  .problem,.quote-section,.form-layout{grid-template-columns:1fr}
+  .prob-big-number{display:none}
+  .how-head{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:1fr 1fr}
+  .how-line{display:none}
+  .feat-grid{grid-template-columns:1fr 1fr}
   .footer-grid{grid-template-columns:1fr}
-  .row2{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
 }
 @media(max-width:600px){
-  section{padding:4rem 5vw}
-  .counter-bar{gap:0}
-  .counter-item{padding:.6rem 5vw;border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}
-  .counter-item:last-child{border-bottom:none}
-  .features-grid{grid-template-columns:1fr}
-  .steps{grid-template-columns:1fr}
+  .hero{padding-top:62px}
+  .stats{grid-template-columns:1fr 1fr}
+  .how-steps{grid-template-columns:1fr}
+  .feat-grid{grid-template-columns:1fr}
   .foot-bottom{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════ NAV ═══════ -->
-<nav>
-  <a href="#" class="logo"><span class="logo-leaf">🌿</span> CADI<span>SY</span></a>
+<!-- CURSOR -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- MOB MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMob()">✕</button>
+  <a href="#probleme" onclick="closeMob()">Le problème</a>
+  <a href="#fonctionnement" onclick="closeMob()">Comment ça marche</a>
+  <a href="#avantages" onclick="closeMob()">Avantages</a>
+  <a href="#precommande" onclick="closeMob()">Précommander</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <span class="leaf">🌿</span> CADISY
+  </a>
   <ul>
     <li><a href="#probleme">Le problème</a></li>
     <li><a href="#fonctionnement">Fonctionnement</a></li>
     <li><a href="#avantages">Avantages</a></li>
-    <li><a href="#precommande" class="btn-nav">Précommander</a></li>
+    <li><a href="#precommande" class="nav-cta">Précommander</a></li>
   </ul>
-  <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+  <button class="hamburger" onclick="openMob()">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
-<!-- menu mobile -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#probleme" onclick="closeMenu()">Le problème</a>
-  <a href="#fonctionnement" onclick="closeMenu()">Fonctionnement</a>
-  <a href="#avantages" onclick="closeMenu()">Avantages</a>
-  <a href="#precommande" class="btn-mobile" onclick="closeMenu()">🛒 Précommander</a>
-</div>
-
-<!-- ═══════ HERO ═══════ -->
+<!-- ═══════════ HERO ═══════════ -->
 <section class="hero" id="accueil">
+  <div class="hero-bg"></div>
+  <div id="particles"></div>
+  <div class="hero-circle"></div>
+
   <div class="hero-left">
-    <div class="badge a1">
-      <span class="badge-dot"></span>
+    <div class="hero-tag">
+      <span class="tag-dot"></span>
       🇧🇪 Initiative étudiante · Solvay Brussels School
     </div>
 
-    <h1 class="hero-title a2">
-      Le caddie qui sort<br/>de votre coffre<br/><em>comme une civière.</em>
+    <h1 class="hero-title">
+      <span class="line">Le caddie qui</span>
+      <span class="line">sort de votre</span>
+      <span class="line">coffre <span class="accent">comme</span></span>
+      <span class="line"><span class="accent">une civière.</span></span>
     </h1>
 
-    <p class="hero-sub a3">
-      CADISY est rangé dans votre coffre, replié. D'une simple traction, il se déplie sur ses rails et se pose sur ses roues — prêt à faire vos courses. Plus jamais besoin de vous pencher douloureusement.
+    <div class="hero-divider"></div>
+
+    <p class="hero-sub">
+      Rangé dans votre coffre, replié et discret. D'une simple traction il se déploie, pose ses roues, devient votre caddie. Votre dos respire enfin.
     </p>
 
-    <div class="hero-actions a4">
-      <a href="#precommande" class="btn-primary">🛒 Précommander</a>
-      <a href="#fonctionnement" class="btn-secondary">▶ Voir comment ça marche</a>
+    <div class="hero-actions">
+      <a href="#precommande" class="btn-hero">
+        🛒 Précommander CADISY
+      </a>
+      <a href="#fonctionnement" class="btn-play">
+        <span class="play-icon">▶</span>
+        Voir comment ça marche
+      </a>
     </div>
 
-    <div class="hero-proof a5">
-      <div class="proof-badge">
-        <span class="flag">🇧🇪</span>
-        <div class="proof-text">
-          <strong>Projet Solvay</strong>
-          Pour mieux vivre votre quotidien
-        </div>
-      </div>
+    <div class="hero-badges">
+      <div class="hero-badge-item"><span>✓</span> Zéro paiement maintenant</div>
+      <div class="hero-badge-item"><span>✓</span> 40 kg de capacité</div>
+      <div class="hero-badge-item"><span>✓</span> Installation universelle</div>
     </div>
   </div>
 
   <div class="hero-right">
-    <div class="caddie-visual">
-      <div class="caddie-glow"></div>
-      <!-- Illustration SVG : coffre voiture + caddie qui se déplie comme une civière -->
-      <svg viewBox="0 0 500 430" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- COFFRE VOITURE -->
-        <rect x="25" y="200" width="450" height="195" rx="14" fill="#14401F" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
-        <!-- bande hayon -->
-        <rect x="25" y="200" width="450" height="24" rx="0" fill="#0D2B1A"/>
-        <!-- hayon ouvert (arc) -->
-        <path d="M25 200 Q250 65 475 200" stroke="rgba(255,255,255,.15)" stroke-width="2" fill="none" stroke-dasharray="8 5"/>
-        <!-- intérieur coffre -->
-        <rect x="38" y="224" width="424" height="12" rx="3" fill="rgba(46,155,72,.25)"/>
+    <div class="hero-visual">
+      <div class="visual-glow"></div>
 
-        <!-- RAILS (2 lignes parallèles) -->
-        <rect x="168" y="236" width="8" height="145" rx="4" fill="#2E9B48" opacity=".7"/>
-        <rect x="324" y="236" width="8" height="145" rx="4" fill="#2E9B48" opacity=".7"/>
+      <div class="visual-card visual-card-1">
+        <div class="vc-label">Déploiement</div>
+        <div class="vc-value">5 sec</div>
+        <div class="vc-sub">⚡ Ultra rapide</div>
+      </div>
+
+      <div class="visual-card visual-card-2">
+        <div class="vc-label">Capacité max</div>
+        <div class="vc-value">40 kg</div>
+        <div class="vc-sub">🏗️ Structure renforcée</div>
+      </div>
+
+      <!-- MAIN SVG ILLUSTRATION -->
+      <svg viewBox="0 0 520 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- hayon ouvert -->
+        <path d="M30 215 Q260 55 490 215" stroke="rgba(255,255,255,.12)" stroke-width="2" fill="none" stroke-dasharray="10 6"/>
+
+        <!-- coffre voiture body -->
+        <rect x="25" y="215" width="470" height="196" rx="16" fill="#14401F"/>
+        <rect x="25" y="215" width="470" height="26" rx="0" fill="#0D2B1A"/>
+
+        <!-- LISERÉ LED coffre -->
+        <rect x="38" y="232" width="444" height="6" rx="3" fill="url(#ledGrad)" opacity=".7"/>
+        <defs>
+          <linearGradient id="ledGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="transparent"/>
+            <stop offset="30%" stop-color="#3DD17C" stop-opacity=".9"/>
+            <stop offset="70%" stop-color="#27A85E" stop-opacity=".9"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </linearGradient>
+          <linearGradient id="railGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#3DD17C"/>
+            <stop offset="100%" stop-color="#165A34"/>
+          </linearGradient>
+        </defs>
+
+        <!-- RAILS gauche et droite -->
+        <rect x="172" y="241" width="9" height="148" rx="4.5" fill="url(#railGrad)" opacity=".75"/>
+        <rect x="339" y="241" width="9" height="148" rx="4.5" fill="url(#railGrad)" opacity=".75"/>
+
         <!-- connecteur rails haut -->
-        <rect x="162" y="236" width="176" height="10" rx="5" fill="rgba(255,255,255,.15)"/>
+        <rect x="164" y="241" width="192" height="11" rx="5.5" fill="rgba(255,255,255,.12)"/>
 
-        <!-- CADDIE DÉPLIÉ sur rails -->
-        <!-- corps principal (brancard) -->
-        <rect x="155" y="248" width="190" height="16" rx="5" fill="#4DB866"/>
-        <rect x="155" y="255" width="190" height="5" fill="rgba(255,255,255,.2)"/>
-        <!-- côtés du caddie -->
-        <rect x="155" y="264" width="8" height="100" rx="4" fill="#4DB866"/>
-        <rect x="337" y="264" width="8" height="100" rx="4" fill="#4DB866"/>
-        <!-- fond caddie -->
-        <rect x="163" y="356" width="174" height="8" rx="4" fill="#237A3A"/>
-        <!-- roues -->
-        <circle cx="188" cy="370" r="15" fill="#0D2B1A" stroke="#4DB866" stroke-width="3"/>
-        <circle cx="188" cy="370" r="5" fill="#4DB866"/>
-        <circle cx="312" cy="370" r="15" fill="#0D2B1A" stroke="#4DB866" stroke-width="3"/>
-        <circle cx="312" cy="370" r="5" fill="#4DB866"/>
+        <!-- CADDIE — corps principal -->
+        <rect x="158" y="254" width="204" height="18" rx="6" fill="#3DD17C"/>
+        <rect x="158" y="260" width="204" height="6" fill="rgba(255,255,255,.2)"/>
+        <!-- panneaux côtés -->
+        <rect x="158" y="272" width="9" height="106" rx="4.5" fill="#27A85E"/>
+        <rect x="353" y="272" width="9" height="106" rx="4.5" fill="#27A85E"/>
+        <!-- fond -->
+        <rect x="167" y="370" width="186" height="9" rx="4.5" fill="#1E7A46"/>
 
-        <!-- CONTENU caddie (courses) -->
-        <rect x="174" y="278" width="46" height="68" rx="5" fill="#237A3A" opacity=".9"/>
-        <rect x="174" y="278" width="46" height="12" rx="5" fill="#4DB866"/>
-        <text x="197" y="290" fill="rgba(255,255,255,.6)" font-size="7" text-anchor="middle" font-family="sans-serif">🥦</text>
-        <rect x="232" y="265" width="38" height="82" rx="5" fill="#F7FAF8" opacity=".85"/>
-        <rect x="232" y="265" width="38" height="13" rx="5" fill="rgba(255,255,255,.5)"/>
-        <rect x="282" y="278" width="42" height="68" rx="5" fill="#1C5C2E" opacity=".85"/>
-        <rect x="282" y="278" width="42" height="12" rx="5" fill="#2E9B48"/>
+        <!-- ROUES -->
+        <circle cx="196" cy="386" r="16" fill="#0A2414" stroke="#3DD17C" stroke-width="3.5"/>
+        <circle cx="196" cy="386" r="6" fill="#3DD17C"/>
+        <circle cx="324" cy="386" r="16" fill="#0A2414" stroke="#3DD17C" stroke-width="3.5"/>
+        <circle cx="324" cy="386" r="6" fill="#3DD17C"/>
 
-        <!-- POIGNÉE du caddie (qui sort vers la gauche) -->
-        <rect x="122" y="254" width="33" height="7" rx="3.5" fill="#82D098"/>
-        <rect x="95" y="240" width="27" height="35" rx="5" fill="none" stroke="#82D098" stroke-width="3"/>
+        <!-- COURSES dans le caddie -->
+        <rect x="178" y="284" width="48" height="74" rx="6" fill="#165A34"/>
+        <rect x="178" y="284" width="48" height="14" rx="6" fill="#1E7A46"/>
+        <text x="202" y="325" fill="rgba(255,255,255,.5)" font-size="20" text-anchor="middle">🥦</text>
 
-        <!-- FLÈCHE "glisse vers vous" -->
-        <line x1="50" y1="305" x2="88" y2="305" stroke="#82D098" stroke-width="2.5" stroke-dasharray="6 4" opacity=".8"/>
-        <polygon points="88,298 104,305 88,312" fill="#82D098" opacity=".8"/>
-        <!-- label -->
-        <rect x="30" y="283" width="58" height="18" rx="5" fill="rgba(46,155,72,.2)" stroke="#4DB866" stroke-width="1"/>
-        <text x="59" y="296" fill="#82D098" font-size="8.5" text-anchor="middle" font-family="sans-serif" font-weight="700">GLISSE !</text>
+        <rect x="240" y="270" width="40" height="88" rx="6" fill="#F2EDE4" opacity=".88"/>
+        <rect x="240" y="270" width="40" height="15" rx="6" fill="rgba(255,255,255,.5)"/>
+        <text x="260" y="316" fill="rgba(0,0,0,.3)" font-size="18" text-anchor="middle">🥛</text>
 
-        <!-- déco étoiles -->
-        <circle cx="440" cy="155" r="3" fill="#4DB866" opacity=".5"/>
-        <circle cx="415" cy="118" r="2" fill="#82D098" opacity=".4"/>
-        <circle cx="62" cy="148" r="4" fill="#82D098" opacity=".3"/>
-        <circle cx="85" cy="108" r="2" fill="white" opacity=".25"/>
-        <circle cx="456" cy="185" r="2" fill="#4DB866" opacity=".4"/>
+        <rect x="294" y="282" width="46" height="76" rx="6" fill="#1E7A46"/>
+        <rect x="294" y="282" width="46" height="14" rx="6" fill="#27A85E"/>
+        <text x="317" y="323" fill="rgba(255,255,255,.5)" font-size="18" text-anchor="middle">🍎</text>
+
+        <!-- POIGNÉE -->
+        <rect x="124" y="260" width="34" height="8" rx="4" fill="#85EBB0"/>
+        <rect x="95" y="245" width="30" height="36" rx="7" fill="none" stroke="#85EBB0" stroke-width="3"/>
+
+        <!-- FLÈCHE déploiement -->
+        <path d="M44 312 L90 312" stroke="#3DD17C" stroke-width="2.5" stroke-dasharray="7 5" opacity=".85"/>
+        <polygon points="90,305 108,312 90,319" fill="#3DD17C" opacity=".85"/>
+
+        <!-- BADGE "GLISSE" -->
+        <rect x="20" y="291" width="64" height="20" rx="6" fill="rgba(61,209,124,.15)" stroke="rgba(61,209,124,.4)" stroke-width="1"/>
+        <text x="52" y="305" fill="#85EBB0" font-size="9" text-anchor="middle" font-family="sans-serif" font-weight="800" letter-spacing="1">GLISSE !</text>
+
+        <!-- étoiles déco -->
+        <circle cx="450" cy="155" r="3.5" fill="#3DD17C" opacity=".4"/>
+        <circle cx="422" cy="112" r="2.5" fill="#85EBB0" opacity=".35"/>
+        <circle cx="72" cy="148" r="4" fill="#3DD17C" opacity=".3"/>
+        <circle cx="95" cy="105" r="2" fill="white" opacity=".2"/>
+        <circle cx="465" cy="190" r="2" fill="#3DD17C" opacity=".35"/>
+        <circle cx="48" cy="188" r="3" fill="#85EBB0" opacity=".25"/>
       </svg>
     </div>
   </div>
 </section>
 
-<!-- ═══════ COUNTER BAR ═══════ -->
-<div class="counter-bar">
-  <div class="counter-item"><div class="counter-num">3M+</div><div class="counter-label">Belges souffrant du dos</div></div>
-  <div class="counter-item"><div class="counter-num">0 €</div><div class="counter-label">Paiement maintenant</div></div>
-  <div class="counter-item"><div class="counter-num">5 sec</div><div class="counter-label">Pour déployer CADISY</div></div>
-  <div class="counter-item"><div class="counter-num">40 kg</div><div class="counter-label">Capacité de charge</div></div>
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack">
+    <!-- items répétés 2× pour loop -->
+    <span class="marquee-item">🌿 Libérez votre dos <span class="marquee-dot"></span></span>
+    <span class="marquee-item">🛒 Caddie intégré au coffre <span class="marquee-dot"></span></span>
+    <span class="marquee-item">⚡ Déploiement en 5 secondes <span class="marquee-dot"></span></span>
+    <span class="marquee-item">🇧🇪 Initiative Solvay Brussels <span class="marquee-dot"></span></span>
+    <span class="marquee-item">✅ Zéro paiement maintenant <span class="marquee-dot"></span></span>
+    <span class="marquee-item">🏥 Recommandé pour le dos <span class="marquee-dot"></span></span>
+    <span class="marquee-item">🌿 Libérez votre dos <span class="marquee-dot"></span></span>
+    <span class="marquee-item">🛒 Caddie intégré au coffre <span class="marquee-dot"></span></span>
+    <span class="marquee-item">⚡ Déploiement en 5 secondes <span class="marquee-dot"></span></span>
+    <span class="marquee-item">🇧🇪 Initiative Solvay Brussels <span class="marquee-dot"></span></span>
+    <span class="marquee-item">✅ Zéro paiement maintenant <span class="marquee-dot"></span></span>
+    <span class="marquee-item">🏥 Recommandé pour le dos <span class="marquee-dot"></span></span>
+  </div>
 </div>
 
-<!-- ═══════ PROBLÈME ═══════ -->
+<!-- STATS -->
+<div class="stats" id="stats">
+  <div class="stat-item reveal">
+    <div class="stat-num" data-target="3" data-suffix="M+">0</div>
+    <div class="stat-label">Belges souffrant<br/>de lombalgies</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.1s">
+    <div class="stat-num" data-target="5" data-suffix=" sec">0</div>
+    <div class="stat-label">Pour déployer<br/>CADISY</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.2s">
+    <div class="stat-num" data-target="40" data-suffix=" kg">0</div>
+    <div class="stat-label">Capacité<br/>de charge</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.3s">
+    <div class="stat-num" data-target="0" data-suffix=" €">0</div>
+    <div class="stat-label">Paiement<br/>maintenant</div>
+  </div>
+</div>
+
+<!-- PROBLÈME -->
 <section class="problem" id="probleme">
-  <div class="problem-text">
-    <p class="section-eyebrow">Le quotidien qui fait mal</p>
-    <h2 class="section-title">Sortir le caddie<br/>du coffre, <em>encore.</em></h2>
-    <p>Faire ses courses devrait être simple. Pour des millions de personnes souffrant du dos, sortir un caddie du coffre et charger les sacs représente une épreuve douloureuse, répétée chaque semaine sans solution.</p>
-    <div class="pain-list">
-      <div class="pain-item">
-        <div class="pain-icon">😣</div>
+  <div class="reveal-left">
+    <p class="eyebrow">Le quotidien qui fait mal</p>
+    <h2 class="section-h">Se pencher dans<br/>le coffre, <em>encore.</em></h2>
+    <p class="prob-desc">Pour des millions de personnes souffrant du dos, sortir un caddie du coffre et charger les sacs représente une épreuve douloureuse répétée chaque semaine — sans aucune solution adaptée.</p>
+    <div class="pain-cards">
+      <div class="pain-card">
+        <div class="pain-em">😣</div>
         <div>
-          <strong>Se pencher profondément dans le coffre</strong>
-          <p>La flexion avant crée jusqu'à 150 kg de pression sur les disques lombaires.</p>
+          <strong>La flexion profonde dans le coffre</strong>
+          <p>Se pencher en avant crée jusqu'à 150 kg de pression sur les disques lombaires à chaque geste.</p>
         </div>
       </div>
-      <div class="pain-item">
-        <div class="pain-icon">🏋️</div>
+      <div class="pain-card">
+        <div class="pain-em">🏋️</div>
         <div>
-          <strong>Soulever des charges répétées</strong>
-          <p>Les courses représentent en moyenne 12 kg. Chaque trajet coffre→maison agresse le dos.</p>
+          <strong>Porter des charges répétées</strong>
+          <p>Les courses représentent en moyenne 12 kg. Chaque trajet coffre→maison fragilise le dos.</p>
         </div>
       </div>
-      <div class="pain-item">
-        <div class="pain-icon">🔄</div>
+      <div class="pain-card">
+        <div class="pain-em">🔄</div>
         <div>
-          <strong>Un geste répété chaque semaine</strong>
-          <p>Des dizaines de fois par an, ce même geste aggrave les douleurs chroniques existantes.</p>
+          <strong>Un geste répété toute l'année</strong>
+          <p>Des dizaines de fois par an, ce même geste aggrave les hernies et douleurs existantes.</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="problem-visual">
-    <svg viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%;max-width:290px">
-      <circle cx="150" cy="50" r="22" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
-      <path d="M150 72 Q145 108 110 148" stroke="rgba(255,255,255,.4)" stroke-width="8" stroke-linecap="round"/>
-      <path d="M130 118 Q90 140 65 155" stroke="rgba(255,255,255,.35)" stroke-width="6" stroke-linecap="round"/>
-      <path d="M128 128 Q92 152 70 167" stroke="rgba(255,255,255,.25)" stroke-width="6" stroke-linecap="round"/>
-      <path d="M110 148 Q105 182 108 218" stroke="rgba(255,255,255,.35)" stroke-width="8" stroke-linecap="round"/>
-      <path d="M110 148 Q118 180 115 218" stroke="rgba(255,255,255,.3)" stroke-width="8" stroke-linecap="round"/>
-      <rect x="42" y="152" width="148" height="78" rx="6" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
-      <rect x="58" y="165" width="38" height="52" rx="4" fill="#4DB866" opacity=".7"/>
-      <ellipse cx="125" cy="106" rx="14" ry="19" fill="rgba(220,80,50,.2)" stroke="rgba(220,80,50,.5)" stroke-width="1.5"/>
-      <text x="125" y="111" fill="rgba(255,100,80,.9)" font-size="14" text-anchor="middle">!</text>
-      <rect x="170" y="66" width="72" height="22" rx="5" fill="rgba(220,80,50,.2)" stroke="rgba(220,80,50,.45)" stroke-width="1"/>
-      <text x="206" y="81" fill="rgba(255,120,90,.9)" font-size="8.5" text-anchor="middle" font-family="sans-serif" font-weight="700">DOULEUR</text>
-    </svg>
+
+  <div class="problem-visual-wrap reveal-right">
+    <div class="prob-big-number">150</div>
+    <div class="prob-card">
+      <div class="prob-svg-wrap">
+        <svg viewBox="0 0 280 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%">
+          <!-- personnage qui se penche -->
+          <circle cx="150" cy="52" r="24" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+          <path d="M150 76 Q142 115 105 158" stroke="rgba(255,255,255,.4)" stroke-width="9" stroke-linecap="round"/>
+          <path d="M125 124 Q82 145 58 162" stroke="rgba(255,255,255,.3)" stroke-width="7" stroke-linecap="round"/>
+          <path d="M122 134 Q82 158 62 174" stroke="rgba(255,255,255,.22)" stroke-width="7" stroke-linecap="round"/>
+          <path d="M105 158 Q100 196 103 236" stroke="rgba(255,255,255,.35)" stroke-width="9" stroke-linecap="round"/>
+          <path d="M105 158 Q114 194 112 236" stroke="rgba(255,255,255,.28)" stroke-width="9" stroke-linecap="round"/>
+          <!-- coffre -->
+          <rect x="40" y="164" width="148" height="84" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+          <rect x="56" y="178" width="40" height="56" rx="5" fill="#3DD17C" opacity=".6"/>
+          <!-- zone douleur lombaire -->
+          <ellipse cx="118" cy="112" rx="16" ry="22" fill="rgba(255,80,80,.18)" stroke="rgba(255,100,80,.5)" stroke-width="2"/>
+          <text x="118" y="118" fill="rgba(255,120,90,.9)" font-size="18" text-anchor="middle">!</text>
+          <!-- label kg -->
+          <rect x="168" y="78" width="78" height="24" rx="6" fill="rgba(255,80,80,.18)" stroke="rgba(255,100,80,.4)" stroke-width="1"/>
+          <text x="207" y="94" fill="rgba(255,140,100,.9)" font-size="9" text-anchor="middle" font-family="sans-serif" font-weight="800">150 KG PRESSION</text>
+        </svg>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ═══════ FONCTIONNEMENT ═══════ -->
+<!-- FONCTIONNEMENT -->
 <section class="how" id="fonctionnement">
-  <p class="section-eyebrow">Aussi simple qu'ouvrir le coffre</p>
-  <h2 class="section-title">Comment<br/><em>ça fonctionne ?</em></h2>
-  <p class="how-subtitle">CADISY fonctionne sur le principe d'une civière de secours : rangé et replié, il sort sur ses rails d'une simple traction et se transforme en chariot de courses.</p>
-  <div class="steps">
-    <div class="step">
-      <span class="step-icon">🚗</span>
-      <div class="step-num">1</div>
+  <div class="how-head">
+    <div class="reveal-left">
+      <p class="eyebrow">Aussi simple qu'ouvrir le coffre</p>
+      <h2 class="section-h">Comment ça<br/><em>fonctionne ?</em></h2>
+    </div>
+    <div class="reveal-right">
+      <p class="how-desc">CADISY fonctionne sur le principe d'une civière de secours. Rangé et replié dans votre coffre, il sort sur ses rails d'une simple traction et se transforme instantanément en chariot de courses.</p>
+    </div>
+  </div>
+  <div class="how-steps">
+    <div class="how-line"></div>
+    <div class="how-step reveal" style="transition-delay:.05s">
+      <div class="step-ico">🚗</div>
+      <div class="step-n">1</div>
       <h3>Ouvrez le coffre</h3>
-      <p>CADISY est rangé replié dans le coffre — compact et discret comme une civière dans une ambulance.</p>
+      <p>CADISY est rangé replié — compact et discret comme une civière dans une ambulance.</p>
     </div>
-    <div class="step">
-      <span class="step-icon">↔️</span>
-      <div class="step-num">2</div>
+    <div class="how-step reveal" style="transition-delay:.15s">
+      <div class="step-ico">↔️</div>
+      <div class="step-n">2</div>
       <h3>Glissez-le hors du coffre</h3>
-      <p>D'une simple traction, il sort sur ses rails vers vous — exactement comme une civière qui se déploie.</p>
+      <p>Une traction et il sort sur ses rails vers vous, exactement comme une civière qui se déploie.</p>
     </div>
-    <div class="step">
-      <span class="step-icon">🛒</span>
-      <div class="step-num">3</div>
+    <div class="how-step reveal" style="transition-delay:.25s">
+      <div class="step-ico">🛒</div>
+      <div class="step-n">3</div>
       <h3>Il se déplie en chariot</h3>
-      <p>Une fois sorti, il se pose sur ses roues et devient votre caddie. Prêt à faire vos courses debout.</p>
+      <p>Il se pose sur ses roues et devient votre caddie. Prêt à faire vos courses debout, sans douleur.</p>
     </div>
-    <div class="step">
-      <span class="step-icon">🏠</span>
-      <div class="step-num">4</div>
+    <div class="how-step reveal" style="transition-delay:.35s">
+      <div class="step-ico">🏠</div>
+      <div class="step-n">4</div>
       <h3>Repliez &amp; rangez</h3>
       <p>De retour, repliez CADISY et glissez-le dans le coffre. Votre dos vous dit merci.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════ AVANTAGES ═══════ -->
+<!-- AVANTAGES -->
 <section class="features" id="avantages">
-  <p class="section-eyebrow">Ce qui fait la différence</p>
-  <h2 class="section-title">Conçu pour<br/><em>votre santé</em></h2>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-icon">⚡</div>
+  <p class="eyebrow reveal">Ce qui fait la différence</p>
+  <h2 class="section-h reveal">Conçu pour<br/><em>votre santé</em></h2>
+  <div class="feat-grid">
+    <div class="feat-card reveal" style="transition-delay:.05s">
+      <div class="feat-ico">⚡</div>
       <h3>Déploiement en 5 secondes</h3>
-      <p>Mécanisme à glissières fluide et silencieux. Fiable par toutes les températures.</p>
+      <p>Mécanisme à glissières aluminium. Fluide, silencieux, fiable par toutes les températures.</p>
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">🏗️</div>
+    <div class="feat-card reveal" style="transition-delay:.12s">
+      <div class="feat-ico">🏗️</div>
       <h3>40 kg de capacité</h3>
-      <p>Structure renforcée pour les grosses courses familiales. Conçu pour durer des années.</p>
+      <p>Structure renforcée pour les plus grosses courses familiales. Conçu pour durer des années.</p>
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">🔧</div>
+    <div class="feat-card reveal" style="transition-delay:.19s">
+      <div class="feat-ico">🔧</div>
       <h3>Installation universelle</h3>
       <p>Compatible avec 95 % des véhicules. Pose en moins de 30 minutes, sans perçage.</p>
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">🌿</div>
+    <div class="feat-card reveal" style="transition-delay:.26s">
+      <div class="feat-ico">🌿</div>
       <h3>Matériaux éco-responsables</h3>
-      <p>Aluminium recyclé, composants durables. Parce que votre santé et celle de la planète comptent.</p>
+      <p>Aluminium recyclé, composants durables. Votre santé et celle de la planète nous importent.</p>
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">🛒</div>
+    <div class="feat-card reveal" style="transition-delay:.33s">
+      <div class="feat-ico">🛒</div>
       <h3>Caddie toujours avec vous</h3>
       <p>Plus besoin de ramener un caddie du magasin. Le vôtre est toujours dans votre coffre.</p>
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">🎓</div>
+    <div class="feat-card reveal" style="transition-delay:.4s">
+      <div class="feat-ico">🎓</div>
       <h3>Initiative étudiante belge</h3>
-      <p>Né à la Solvay Brussels School, CADISY est un projet pensé pour résoudre un vrai problème du quotidien.</p>
+      <p>Né à la Solvay Brussels School, CADISY résout un vrai problème du quotidien de millions de personnes.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════ FORMULAIRE PRÉCOMMANDE ═══════ -->
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="reveal-left">
+    <p class="eyebrow">Notre mission</p>
+    <h3 class="section-h" style="font-size:1.8rem">Pourquoi<br/><em>CADISY ?</em></h3>
+  </div>
+  <div class="reveal-right">
+    <p class="big-quote">
+      «&nbsp;Faire ses courses devrait être un plaisir pour tout le monde. Nous avons conçu CADISY pour que <span class="highlight">la douleur ne soit plus un obstacle</span> à l'autonomie.&nbsp;»
+    </p>
+    <div class="quote-source">
+      <div class="q-avatar">S</div>
+      <div>
+        <p class="q-name">L'équipe CADISY</p>
+        <p class="q-role">Étudiants en entrepreneuriat · Solvay Brussels School</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULAIRE -->
 <section id="precommande">
-  <p class="section-eyebrow">Sans paiement immédiat</p>
-  <h2 class="section-title">Précommandez<br/><em>CADISY</em></h2>
-  <p class="form-intro">
-    CADISY est en cours de développement. En précommandant aujourd'hui, vous nous aidez à concrétiser ce projet et bénéficiez du prix de lancement. <strong style="color:rgba(255,255,255,.7)">Aucun paiement maintenant</strong> — nous vous recontactons avec l'offre finale avant tout prélèvement.
-  </p>
+  <p class="eyebrow reveal">Sans paiement immédiat</p>
+  <h2 class="section-h reveal">Précommandez<br/><em>CADISY</em></h2>
+  <p class="form-tagline reveal">CADISY est en cours de développement. En précommandant aujourd'hui vous nous aidez à le lancer et bénéficiez du prix de lancement. <strong style="color:rgba(255,255,255,.7)">Aucun paiement maintenant.</strong></p>
 
   <div class="form-layout">
-
-    <!-- AVANTAGES -->
-    <div class="form-perks">
+    <div class="form-perks reveal-left">
       <div class="perk">
-        <div class="perk-icon">🥇</div>
+        <div class="perk-ico">🥇</div>
         <div>
           <h4>Accès prioritaire</h4>
           <p>Vous êtes contacté avant le grand public pour réserver au tarif de lancement.</p>
         </div>
       </div>
       <div class="perk">
-        <div class="perk-icon">💸</div>
+        <div class="perk-ico">💸</div>
         <div>
           <h4>Prix de lancement exclusif</h4>
           <p>Tarif préférentiel garanti, uniquement pour les précommandes.</p>
         </div>
       </div>
       <div class="perk">
-        <div class="perk-icon">📦</div>
+        <div class="perk-ico">📦</div>
         <div>
           <h4>Zéro engagement</h4>
           <p>Aucune carte bancaire. Vous confirmez uniquement à réception de l'offre finale.</p>
         </div>
       </div>
       <div class="perk">
-        <div class="perk-icon">🔔</div>
+        <div class="perk-ico">🔔</div>
         <div>
           <h4>Suivi du projet</h4>
           <p>Recevez nos avancées et photos du produit final en avant-première.</p>
         </div>
       </div>
       <div class="perk">
-        <div class="perk-icon">🛡️</div>
+        <div class="perk-ico">🛡️</div>
         <div>
           <h4>Données protégées</h4>
           <p>Conformité RGPD. Jamais revendues. Supprimées sur demande.</p>
@@ -727,44 +1132,21 @@ footer{background:var(--g900);padding:3.5rem 8vw 2.5rem;border-top:1px solid rgb
       </div>
     </div>
 
-    <!-- FORMULAIRE -->
-    <div class="form-box" id="formBox">
-      <h3 class="form-box-title">Précommande — sans paiement immédiat</h3>
-      <p class="form-box-note">Remplissez ce formulaire en 60 secondes. Nous vous écrivons avec l'offre finale avant tout paiement.</p>
+    <div class="form-glass reveal-right" id="formBox">
+      <h3 class="form-glass-title">Précommande · Sans paiement</h3>
+      <p class="form-glass-sub">Complétez ce formulaire en 60 secondes. Nous vous contactons avec l'offre finale avant tout paiement.</p>
 
-      <div class="row2">
-        <div class="field">
-          <label for="prenom">Prénom *</label>
-          <input type="text" id="prenom" placeholder="Jean"/>
-        </div>
-        <div class="field">
-          <label for="nom">Nom *</label>
-          <input type="text" id="nom" placeholder="Dupont"/>
-        </div>
+      <div class="frow">
+        <div class="fld"><label for="prenom">Prénom *</label><input type="text" id="prenom" placeholder="Jean"/></div>
+        <div class="fld"><label for="nom">Nom *</label><input type="text" id="nom" placeholder="Dupont"/></div>
       </div>
-
-      <div class="field">
-        <label for="email">Adresse e-mail *</label>
-        <input type="email" id="email" placeholder="jean.dupont@exemple.be"/>
+      <div class="fld"><label for="email">E-mail *</label><input type="email" id="email" placeholder="jean@exemple.be"/></div>
+      <div class="fld"><label for="tel">Téléphone (optionnel)</label><input type="tel" id="tel" placeholder="+32 470 00 00 00"/></div>
+      <div class="frow">
+        <div class="fld"><label for="cp">Code postal *</label><input type="text" id="cp" placeholder="1000" maxlength="10"/></div>
+        <div class="fld"><label for="ville">Ville *</label><input type="text" id="ville" placeholder="Bruxelles"/></div>
       </div>
-
-      <div class="field">
-        <label for="tel">Téléphone (optionnel)</label>
-        <input type="tel" id="tel" placeholder="+32 470 12 34 56"/>
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label for="cp">Code postal *</label>
-          <input type="text" id="cp" placeholder="1000" maxlength="10"/>
-        </div>
-        <div class="field">
-          <label for="ville">Ville *</label>
-          <input type="text" id="ville" placeholder="Bruxelles"/>
-        </div>
-      </div>
-
-      <div class="field">
+      <div class="fld">
         <label for="qte">Quantité souhaitée *</label>
         <select id="qte">
           <option value="1">1 exemplaire</option>
@@ -773,30 +1155,21 @@ footer{background:var(--g900);padding:3.5rem 8vw 2.5rem;border-top:1px solid rgb
           <option value="pro">Usage professionnel / revendeur</option>
         </select>
       </div>
-
-      <div class="field">
+      <div class="fld">
         <label for="vehicule">Type de véhicule (optionnel)</label>
         <select id="vehicule">
           <option value="">— Sélectionner —</option>
-          <option>Berline</option>
-          <option>Break / Familiale</option>
-          <option>SUV / 4x4</option>
-          <option>Monospace</option>
-          <option>Citadine</option>
-          <option>Utilitaire</option>
+          <option>Berline</option><option>Break / Familiale</option>
+          <option>SUV / 4x4</option><option>Monospace</option>
+          <option>Citadine</option><option>Utilitaire</option>
         </select>
       </div>
+      <div class="fld"><label for="message">Message (optionnel)</label><textarea id="message" placeholder="Une question, un besoin spécifique…"></textarea></div>
 
-      <div class="field">
-        <label for="message">Message (optionnel)</label>
-        <textarea id="message" placeholder="Une question, un besoin spécifique, un contexte particulier…"></textarea>
-      </div>
-
-      <div class="rgpd-row">
+      <div class="rgpd">
         <input type="checkbox" id="rgpd"/>
         <label for="rgpd">
-          J'accepte que mes informations soient utilisées uniquement pour être contacté(e) à propos de CADISY. Aucune revente, aucun spam.
-          <a href="#">Politique de confidentialité</a>.
+          J'accepte que mes informations soient utilisées uniquement pour être contacté(e) à propos de CADISY. Aucune revente. <a href="#">Politique de confidentialité</a>.
         </label>
       </div>
 
@@ -805,29 +1178,28 @@ footer{background:var(--g900);padding:3.5rem 8vw 2.5rem;border-top:1px solid rgb
       </button>
 
       <!-- SUCCÈS -->
-      <div class="success-box" id="successBox">
+      <div class="success-state" id="successBox">
         <div class="success-icon">✓</div>
         <h3>Précommande enregistrée !</h3>
-        <p>Merci ! Nous vous contacterons avec l'offre finale avant tout paiement. À très bientôt !</p>
+        <p>Merci ! Nous vous contactons avec l'offre finale avant tout paiement. À très bientôt !</p>
         <div class="success-recap">
           <h4>Récapitulatif</h4>
           <pre id="successDetails"></pre>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ═══════ FOOTER ═══════ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="foot-brand">
-      <a href="#" class="logo"><span>🌿</span> CADI<span>SY</span></a>
-      <p>Le caddie qui se déplie hors de votre coffre comme une civière. Un projet étudiant né à la Solvay Brussels School of Economics and Management.</p>
+      <a href="#" class="foot-logo"><span class="leaf">🌿</span> CADISY</a>
+      <p>Le caddie qui se déplie hors de votre coffre comme une civière. Projet étudiant né à la Solvay Brussels School of Economics and Management.</p>
     </div>
     <div class="foot-col">
-      <h4>Navigation</h4>
+      <p class="foot-h">Navigation</p>
       <ul>
         <li><a href="#accueil">Accueil</a></li>
         <li><a href="#probleme">Le problème</a></li>
@@ -837,7 +1209,7 @@ footer{background:var(--g900);padding:3.5rem 8vw 2.5rem;border-top:1px solid rgb
       </ul>
     </div>
     <div class="foot-col">
-      <h4>Contact &amp; légal</h4>
+      <p class="foot-h">Contact &amp; légal</p>
       <ul>
         <li><a href="mailto:contact@cadisy.be">contact@cadisy.be</a></li>
         <li><a href="#">Mentions légales</a></li>
@@ -848,126 +1220,141 @@ footer{background:var(--g900);padding:3.5rem 8vw 2.5rem;border-top:1px solid rgb
   </div>
   <div class="foot-bottom">
     <p>© 2025 CADISY — Projet étudiant Solvay Brussels School</p>
-    <p>🇧🇪 Initiative belge</p>
+    <p>🇧🇪 Made in Belgium</p>
   </div>
 </footer>
 
 <script>
-/* ── MENU MOBILE ── */
-function toggleMenu(){
-  const m = document.getElementById('mobileMenu');
-  m.classList.toggle('open');
-}
-function closeMenu(){
-  document.getElementById('mobileMenu').classList.remove('open');
-}
-// fermer menu si clic ailleurs
-document.addEventListener('click', function(e){
-  const menu = document.getElementById('mobileMenu');
-  const burger = document.getElementById('hamburger');
-  if(menu.classList.contains('open') && !menu.contains(e.target) && !burger.contains(e.target)){
-    menu.classList.remove('open');
-  }
+/* ── CURSOR ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+document.querySelectorAll('a,button,.how-step,.feat-card,.pain-card,.stat-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('grow');ring.classList.add('grow')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('grow');ring.classList.remove('grow')});
 });
+
+/* ── PARTICLES ── */
+const pc = document.getElementById('particles');
+for(let i=0;i<22;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  const size=Math.random()*4+2;
+  p.style.cssText=`
+    width:${size}px;height:${size}px;
+    left:${Math.random()*100}%;
+    bottom:${Math.random()*30}%;
+    --dx:${(Math.random()-0.5)*200}px;
+    animation-duration:${Math.random()*8+6}s;
+    animation-delay:${Math.random()*8}s;
+    opacity:0;
+  `;
+  pc.appendChild(p);
+}
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* ── MOBILE MENU ── */
+function openMob(){document.getElementById('mobMenu').classList.add('open')}
+function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
 
 /* ── SCROLL REVEAL ── */
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>io.observe(el));
+
+/* ── COUNTER ANIMATION ── */
+function animCount(el){
+  const target=+el.dataset.target;
+  const suffix=el.dataset.suffix||'';
+  const dur=1800;const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    const ease=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+    el.textContent=Math.round(ease*target)+suffix;
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const statsIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
     if(e.isIntersecting){
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-      io.unobserve(e.target);
+      e.target.querySelectorAll('.stat-num').forEach(animCount);
+      statsIO.unobserve(e.target);
     }
   });
-}, { threshold: 0.1 });
+},{threshold:.3});
+statsIO.observe(document.getElementById('stats'));
 
-document.querySelectorAll('.feat-card, .step, .perk, .pain-item, .counter-item').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(22px)';
-  el.style.transition = 'opacity .55s ease, transform .55s ease';
-  io.observe(el);
-});
-
-/* ── FORMULAIRE ── */
+/* ── FORM ── */
 function submitForm(){
-  // reset erreurs
-  document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+  document.querySelectorAll('.err').forEach(el=>el.classList.remove('err'));
+  const g=id=>document.getElementById(id).value.trim();
+  const prenom=g('prenom'),nom=g('nom'),email=g('email'),cp=g('cp'),ville=g('ville');
+  const rgpd=document.getElementById('rgpd').checked;
+  let ok=true;
+  const mark=id=>{document.getElementById(id).classList.add('err');ok=false};
+  if(!prenom)mark('prenom');
+  if(!nom)mark('nom');
+  if(!email||!/^[^@]+@[^@]+\.[^@]+$/.test(email))mark('email');
+  if(!cp)mark('cp');
+  if(!ville)mark('ville');
+  if(!ok){document.querySelector('.err').scrollIntoView({behavior:'smooth',block:'center'});return}
+  if(!rgpd){alert("Merci d'accepter la politique de confidentialité.");return}
 
-  const get = id => document.getElementById(id).value.trim();
-  const prenom = get('prenom'), nom = get('nom');
-  const email  = get('email'), cp = get('cp'), ville = get('ville');
-  const rgpd   = document.getElementById('rgpd').checked;
+  const tel=g('tel'),message=g('message');
+  const qteSel=document.getElementById('qte');
+  const vehSel=document.getElementById('vehicule');
+  const qte=qteSel.options[qteSel.selectedIndex].text;
+  const veh=vehSel.value?vehSel.options[vehSel.selectedIndex].text:'Non précisé';
+  const date=new Date().toLocaleDateString('fr-BE',{day:'2-digit',month:'long',year:'numeric'});
 
-  let ok = true;
-  function markError(id){ document.getElementById(id).classList.add('error'); ok = false; }
-
-  if(!prenom) markError('prenom');
-  if(!nom)    markError('nom');
-  if(!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) markError('email');
-  if(!cp)     markError('cp');
-  if(!ville)  markError('ville');
-
-  if(!ok){
-    // scroller vers le premier champ en erreur
-    document.querySelector('.error').scrollIntoView({behavior:'smooth', block:'center'});
-    return;
-  }
-  if(!rgpd){
-    document.getElementById('rgpd').focus();
-    alert("Merci d'accepter la politique de confidentialité pour continuer.");
-    return;
-  }
-
-  const tel     = get('tel');
-  const qteSel  = document.getElementById('qte');
-  const vehSel  = document.getElementById('vehicule');
-  const message = get('message');
-  const qte = qteSel.options[qteSel.selectedIndex].text;
-  const veh = vehSel.value ? vehSel.options[vehSel.selectedIndex].text : 'Non précisé';
-  const date = new Date().toLocaleDateString('fr-BE',{day:'2-digit',month:'long',year:'numeric'});
-
-  const recap = [
+  const recap=[
     `Nom          : ${prenom} ${nom}`,
     `E-mail       : ${email}`,
-    tel ? `Téléphone    : ${tel}` : null,
+    tel?`Téléphone    : ${tel}`:null,
     `Localisation : ${cp} ${ville}`,
     `Quantité     : ${qte}`,
     `Véhicule     : ${veh}`,
-    message ? `Message      : ${message}` : null,
+    message?`Message      : ${message}`:null,
     `Précommandé le : ${date}`
   ].filter(Boolean).join('\n');
 
-  document.getElementById('successDetails').textContent = recap;
+  const btn=document.getElementById('btnSubmit');
+  btn.disabled=true;btn.textContent='⏳ Envoi en cours…';
 
-  // stocker localement (facultatif)
-  try{
-    const arr = JSON.parse(localStorage.getItem('cadisy_leads')||'[]');
-    arr.push({prenom,nom,email,tel,cp,ville,qte,veh,message,date:new Date().toISOString()});
-    localStorage.setItem('cadisy_leads', JSON.stringify(arr));
-  }catch(_){}
-
-  // cacher le formulaire, afficher succès
-  const box = document.getElementById('formBox');
-  box.querySelectorAll('.row2,.field,.rgpd-row,#btnSubmit,.form-box-title,.form-box-note')
-     .forEach(el => el.style.display = 'none');
-  const s = document.getElementById('successBox');
-  s.style.display = 'block';
-  s.scrollIntoView({behavior:'smooth', block:'center'});
-}
-
-/* ── NAV ACTIVE STATE ── */
-const sections = document.querySelectorAll('section[id], div[id]');
-const navLinks = document.querySelectorAll('nav ul li a');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting){
-      navLinks.forEach(a => a.classList.remove('active'));
-      const active = document.querySelector(`nav ul li a[href="#${e.target.id}"]`);
-      if(active) active.classList.add('active');
+  fetch('https://formspree.io/f/mpqyklbw',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({prenom,nom,email,tel,cp,ville,quantite:qte,vehicule:veh,message})
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.ok||d.next){
+      document.getElementById('successDetails').textContent=recap;
+      document.getElementById('formBox')
+        .querySelectorAll('.frow,.fld,.rgpd,#btnSubmit,.form-glass-title,.form-glass-sub')
+        .forEach(el=>el.style.display='none');
+      const s=document.getElementById('successBox');
+      s.style.display='block';
+      s.scrollIntoView({behavior:'smooth',block:'center'});
+    } else {
+      btn.disabled=false;btn.textContent='🛒 Précommander CADISY';
+      alert("Une erreur s'est produite. Veuillez réessayer.");
     }
+  })
+  .catch(()=>{
+    btn.disabled=false;btn.textContent='🛒 Précommander CADISY';
+    alert("Problème de connexion. Vérifiez votre accès internet.");
   });
-}, {rootMargin:'-40% 0px -55% 0px'});
-sections.forEach(s => observer.observe(s));
+}
 </script>
 </body>
 </html>
